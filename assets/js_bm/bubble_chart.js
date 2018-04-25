@@ -1,4 +1,4 @@
-d3.csv('assets/data/bm_bubbles.csv', display); // Daten laden
+d3.csv('assets/data/bm_bubbles_2016.csv', display); // Daten laden
 setupButtons(); // Button Setup
 
 //* ------------------------------------------------------------------
@@ -55,10 +55,7 @@ function addCommas(nStr) {
 /* Funktion für die Erstellung der Bubble Chart. Returned eine Funktion, welche eine neue Bubble Chart erstellt, gegeben ein DOM-Element zur Darstellung und gegeben ein Datenset zur Visualisierung. */
 
 function bubbleChart() {
-  var width = 1030; // Konstanten für die Grösse
-  var height = 600; // Konstanten für die Grösse
-  var center = { x: width / 2, y: height / 2 };  // Locations to move bubbles towards, depending on which view mode is selected.
-
+  
 //* ------------------------------------------------------------------
 //
 // Teil 3 - Beschriftungen
@@ -238,61 +235,17 @@ var durationCenters = { // Center locations of the bubbles.
 // Used when setting up force and moving around nodes
   var damper = 0.102;
 
-// These will be set in create_nodes and create_vis
-  var svg = null;
-  var bubbles = null;
-  var nodes = [];
-
-/* Charge function that is called for each node. Charge is proportional to the diameter of the circle (which is stored in the radius attribute of the circle's associated data. This is done to allow for accurate collision detection with nodes of different sizes. Charge is negative because we want nodes to repel. Dividing by 8 scales down the charge to be appropriate for the visualization dimensions. */
-    
-  function charge(d) {
-    return -Math.pow(d.radius, 2.0) / 6;
-  }
-
-/* Here we create a force layout and configure it to use the charge function from above. This also sets some contants to specify how the force layout should behave. More configuration is done below. */
-    
-  var force = d3.layout.force()
-    .size([width, height])
-    .charge(charge)
-    .gravity(-0.01)
-    .friction(0.9);
 
 
-  // Sizes bubbles based on their area instead of raw radius
-  var radiusScale = d3.scale.pow()
-    .exponent(0.5)
-    .range([2, 75]);
+
+
+
+
+  
 
 /* This data manipulation function takes the raw data from the CSV file and converts it into an array of node objects. Each node will store data and visualization values to visualize a bubble. rawData is expected to be an array of data objects, read in from one of d3's loading functions like d3.csv. This function returns the new node array, with a node in that array for each element in the rawData input. */
     
-  function createNodes(rawData) {
- 
-/* Use map() to convert raw data into node data. Checkout http://learnjsdata.com/ for more on working with data. */
-      
-    var myNodes = rawData.map(function (d) {
-      return {
-        id: d.id,
-        radius: radiusScale(+d.konz), // Berechnung Radius für bubbles
-        konzentration: d.konz, // Ansicht nach Konzentration
-        group: d.kategorie, // Darstellung
-        duration: d.kategorie, // Ansicht nach Störungsdauer
-        month: d.monat,
-        year: d.jahr,
-        type: d.gruppe,  //vorfall
-        weekday: d.wochentag,
-        linienbez: d.linienbezeichnung,  
-        parameter: d.parameter,
-        gruppe: d.gruppe,
-        x: Math.random() * 900,
-        y: Math.random() * 800
-      };
-    });
-
-    // sort them to prevent occlusion of smaller nodes.
-    myNodes.sort(function (a, b) { return b.konz - a.konz; });
-
-    return myNodes;
-  }
+  //create Nodes
 
 /* Main entry point to the bubble chart. This function is returned by the parent closure. It prepares the rawData for visualization and adds an svg element to the provided selector and starts the visualization creation process. selector is expected to be a DOM element or CSS selector that points to the parent element of the bubble chart. Inside this element, the code will add the SVG continer for the visualization. rawData is expected to be an array of data objects as provided by a d3 loading function like d3.csv. */
     
@@ -704,3 +657,90 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
 // The End
 //
 // -----------------------------------------------------------------*/
+
+
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+    output.innerHTML = this.value;
+    d3.csv('assets/data/bm_bubbles_'+this.value+'.csv', update); // Daten laden
+}
+
+// These will be set in create_nodes and create_vis
+var svg = null;
+var bubbles = null;
+var nodes = [];
+var width = 1030; // Konstanten für die Grösse
+var height = 600; // Konstanten für die Grösse
+var center = { x: width / 2, y: height / 2 };  // Locations to move bubbles towards, depending on which view mode is selected.
+
+
+
+
+function update(error, data) {
+    if (error) {
+        console.log(error);
+    }
+    
+    var nodes_2 = createNodes(data);
+    force.nodes(nodes_2);
+
+    svg.selectAll('.bubble').data(nodes_2, function (d) { return d.id; })
+        .transition()
+        .duration(2000)
+        .attr('r', function (d) { return d.radius; });
+
+ 
+    
+}
+
+var createNodes = function (rawData) {
+ 
+/* Use map() to convert raw data into node data. Checkout http://learnjsdata.com/ for more on working with data. */
+      
+    var myNodes = rawData.map(function (d) {
+      return {
+        id: d.id,
+        radius: d.konz,//radiusScale(+d.konz), // Berechnung Radius für bubbles
+        konzentration: d.konz, // Ansicht nach Konzentration
+        group: d.kategorie, // Darstellung
+        duration: d.kategorie, // Ansicht nach Störungsdauer
+        month: d.monat,
+        year: d.jahr,
+        type: d.gruppe,  //vorfall
+        weekday: d.wochentag,
+        linienbez: d.linienbezeichnung,  
+        parameter: d.parameter,
+        gruppe: d.gruppe,
+        x: Math.random() * 900,
+        y: Math.random() * 800
+      };
+    });
+
+    // sort them to prevent occlusion of smaller nodes.
+    myNodes.sort(function (a, b) { return b.konz - a.konz; });
+    
+    console.log(myNodes);
+
+    return myNodes;
+  }
+
+// Sizes bubbles based on their area instead of raw radius
+  var radiusScale = d3.scale.pow()
+    .exponent(0.5)
+    .range([2, 75]);
+
+/* Here we create a force layout and configure it to use the charge function from above. This also sets some contants to specify how the force layout should behave. More configuration is done below. */ 
+  var force = d3.layout.force()
+    .size([width, height])
+    .charge(charge)
+    .gravity(-0.01)
+    .friction(0.9);
+
+/* Charge function that is called for each node. Charge is proportional to the diameter of the circle (which is stored in the radius attribute of the circle's associated data. This is done to allow for accurate collision detection with nodes of different sizes. Charge is negative because we want nodes to repel. Dividing by 8 scales down the charge to be appropriate for the visualization dimensions. */
+function charge(d) {
+    return -Math.pow(d.radius, 2.0) / 6;
+}
