@@ -62,169 +62,7 @@ function bubbleChart() {
 //
 // -----------------------------------------------------------------*/
 
-// Störungen nach Linien
-    
-  var lineCenters = { // Center locations of the bubbles. 
-    Januar: { x: 215, y: height / 2 },
-    Februar: { x: 270, y: height / 2 },
-    Maerz: { x: 325, y: height / 2 },
-    April: { x: 380, y: height / 2 },
-    Mai: { x: 435, y: height / 2 },
-    Juni: { x: 490, y: height / 2 },
-    Juli: { x: 545, y: height / 2 },
-    August: { x: 600, y: height / 2 },
-    September: { x: 660, y: height / 2 },
-    Oktober: { x: 720, y: height / 2 },
-    November: { x: 775, y: height / 2 },
-    Dezember: { x: 830, y: height / 2 }
-  };
 
-  var linesTitleX = {  // X locations of the year titles.
-    'Januar': 48,
-    'Februar': 130,
-    'Maerz': 227,
-    'April': 313,
-    'Mai': 400,
-    'Juni': 500,
-    'Juli': 583,
-    'August': 658,
-    'September': 732,
-    'Oktober': 802,
-    'November': 898,
-    'Dezember': 988
-  };
- 
-// Störungen nach Jahren
-    
-var yearCenters = { // Center locations of the bubbles.
-    2013: { x: (width/6)*1, y: height / 2 },
-    2014: { x: (width/6)*2, y: height / 2 },
-    2015: { x: (width/6)*3, y: height / 2 },
-    2016: { x: (width/6)*4, y: height / 2 },
-    2017: { x: (width/6)*5, y: height / 2 }
-  };
-
-  var yearsTitleX = { // X locations of the year titles.
-    2013: (width/6)*1,
-    2014: (width/6)*2,
-    2015: (width/6)*3,
-    2016: (width/6)*4,
-    2017: (width/6)*5
-  };
-
-  var yearsTitleY = { // X locations of the year titles.
-    2013: 65,
-    2014: 65,
-    2015: 65,
-    2016: 65,
-    2017: 65
-  };
-    
-// Störungen nach Störungsdauer/Bubble-Grösse
-
-var durationCenters = { // Center locations of the bubbles.
-    'verylow': { x: 250, y: height / 2 },
-    'low': { x: 400, y: height / 2 },
-    'medium': { x: 600, y: height / 2 },
-    'high': { x: 750, y: height / 2 }
-  };
-
-  var durationTitleX = { // X locations of the year titles.
-    'Kürzer als 30 Minuten': 100,
-    '30 Minuten - 2 Stunden': 340,
-    '2 Stunden - 12 Stunden': 620,
-    'Länger als 12 Stunden': 870
-  };
-    
-// Störungen nach Störungsart
-    
-  var typeCenters = { // Center locations of the bubbles. 
-    Anionen: { x: 200, y: 325 },
-    Arzneimittel: { x: 200, y: 275 },
-    BTEX: { x: 300, y: 325 },
-    Einzelstoffe: { x: 300, y: 275 },
-    Haerte: { x: 400, y: 325 },
-    Kationen: { x: 400, y: 275 },
-    Komplexbildner: { x: 500, y: 300 },
-    LHKW: { x: 600, y: 325 },
-    Metabolite: { x: 600, y: 275 },
-    Metalle: { x: 700, y: 325 },
-    Organochlorverbindungen: { x: 700, y: 275 },
-    Organozinnverbindungen: { x: 800, y: 325 },
-    PAK: { x: 800, y: 275 },
-    PCB: { x: 800, y: 275 },
-    Pestizide: { x: 800, y: 275 },
-    Phthalate: { x: 800, y: 275 },
-    Roentgenkontrastmittel: { x: 800, y: 275 },
-    Suessstoffe: { x: 800, y: 275 },
-    Summenparameter: { x: 800, y: 275 }
-  };
-
-  var typeTitleX = {  // X locations of the year titles.
-    'Anionen': 70,
-    'Arzneimittel': 70,
-    'BTEX':  220,
-    'Einzelstoffe': 220,
-    'Haerte': 340,
-    'Kationen': 340,
-    'Komplexbildner': 520,
-    'LHKW': 710,
-    'Metabolite': 740,
-    'Metalle': 810,
-    'Organochlorverbindungen': 910,
-    'Organozinnverbindungen': 920,
-    'PAK': 810,
-    'PCB': 810,
-    'Pestizide': 810,
-    'Phthalate': 810,
-    'Roentgenkontrastmittel': 810,
-    'Suessstoffe': 810,
-    'Summenparameter': 810
-  };
- 
-  var typeTitleY = {  // Y locations of the year titles.
-    'Anionen': 525,
-    'Arzneimittel': 75,
-    'BTEX':  525,
-    'Einzelstoffe': 75,
-    'Haerte': 525,
-    'Kationen': 75,
-    'Komplexbildner': 75,
-    'LHKW': 525,
-    'Metabolite': 75,
-    'Metalle': 490,
-    'Organochlorverbindungen': 525,
-    'Organozinnverbindungen': 75,
-    'PAK': 115,
-    'PCB': 115,
-    'Pestizide': 115,
-    'Phthalate': 115,
-    'Roentgenkontrastmittel': 115,
-    'Suessstoffe': 115,
-    'Summenparameter': 115
-  };
-
-// Störungen nach Wochentag
-    
-  var weekdayCenters = { // Center locations of the bubbles. 
-    'Montag': { x: 200, y: height / 2 },
-    'Dienstag': { x: 300, y: height / 2 },
-    'Mittwoch': { x: 400, y: height / 2 },
-    'Donnerstag': { x: 500, y: height / 2 },
-    'Freitag': { x: 600, y: height / 2 },
-    'Samstag': { x: 700, y: height / 2 },
-    'Sonntag': { x: 800, y: height / 2 },
-  };
-
-  var weekdayTitleX = {  // X locations of the year titles.
-    'Montag': 75,
-    'Dienstag': 220,
-    'Mittwoch': 340,
-    'Donnerstag': 470,
-    'Freitag': 600,
-    'Samstag': 750,
-    'Sonntag': 930,
-  };
     
 //* ------------------------------------------------------------------
 //
@@ -677,6 +515,170 @@ var width = 1030; // Konstanten für die Grösse
 var height = 600; // Konstanten für die Grösse
 var center = { x: width / 2, y: height / 2 };  // Locations to move bubbles towards, depending on which view mode is selected.
 
+
+// Störungen nach Linien
+    
+  var lineCenters = { // Center locations of the bubbles. 
+    Januar: { x: 215, y: height / 2 },
+    Februar: { x: 270, y: height / 2 },
+    Maerz: { x: 325, y: height / 2 },
+    April: { x: 380, y: height / 2 },
+    Mai: { x: 435, y: height / 2 },
+    Juni: { x: 490, y: height / 2 },
+    Juli: { x: 545, y: height / 2 },
+    August: { x: 600, y: height / 2 },
+    September: { x: 660, y: height / 2 },
+    Oktober: { x: 720, y: height / 2 },
+    November: { x: 775, y: height / 2 },
+    Dezember: { x: 830, y: height / 2 }
+  };
+
+  var linesTitleX = {  // X locations of the year titles.
+    'Januar': 48,
+    'Februar': 130,
+    'Maerz': 227,
+    'April': 313,
+    'Mai': 400,
+    'Juni': 500,
+    'Juli': 583,
+    'August': 658,
+    'September': 732,
+    'Oktober': 802,
+    'November': 898,
+    'Dezember': 988
+  };
+ 
+// Störungen nach Jahren
+    
+var yearCenters = { // Center locations of the bubbles.
+    2013: { x: (width/6)*1, y: height / 2 },
+    2014: { x: (width/6)*2, y: height / 2 },
+    2015: { x: (width/6)*3, y: height / 2 },
+    2016: { x: (width/6)*4, y: height / 2 },
+    2017: { x: (width/6)*5, y: height / 2 }
+  };
+
+  var yearsTitleX = { // X locations of the year titles.
+    2013: (width/6)*1,
+    2014: (width/6)*2,
+    2015: (width/6)*3,
+    2016: (width/6)*4,
+    2017: (width/6)*5
+  };
+
+  var yearsTitleY = { // X locations of the year titles.
+    2013: 65,
+    2014: 65,
+    2015: 65,
+    2016: 65,
+    2017: 65
+  };
+    
+// Störungen nach Störungsdauer/Bubble-Grösse
+
+var durationCenters = { // Center locations of the bubbles.
+    'verylow': { x: 250, y: height / 2 },
+    'low': { x: 400, y: height / 2 },
+    'medium': { x: 600, y: height / 2 },
+    'high': { x: 750, y: height / 2 }
+  };
+
+  var durationTitleX = { // X locations of the year titles.
+    'Kürzer als 30 Minuten': 100,
+    '30 Minuten - 2 Stunden': 340,
+    '2 Stunden - 12 Stunden': 620,
+    'Länger als 12 Stunden': 870
+  };
+    
+// Störungen nach Störungsart
+    
+  var typeCenters = { // Center locations of the bubbles. 
+    Anionen: { x: 200, y: 325 },
+    Arzneimittel: { x: 200, y: 275 },
+    BTEX: { x: 300, y: 325 },
+    Einzelstoffe: { x: 300, y: 275 },
+    Haerte: { x: 400, y: 325 },
+    Kationen: { x: 400, y: 275 },
+    Komplexbildner: { x: 500, y: 300 },
+    LHKW: { x: 600, y: 325 },
+    Metabolite: { x: 600, y: 275 },
+    Metalle: { x: 700, y: 325 },
+    Organochlorverbindungen: { x: 700, y: 275 },
+    Organozinnverbindungen: { x: 800, y: 325 },
+    PAK: { x: 800, y: 275 },
+    PCB: { x: 800, y: 275 },
+    Pestizide: { x: 800, y: 275 },
+    Phthalate: { x: 800, y: 275 },
+    Roentgenkontrastmittel: { x: 800, y: 275 },
+    Suessstoffe: { x: 800, y: 275 },
+    Summenparameter: { x: 800, y: 275 }
+  };
+
+  var typeTitleX = {  // X locations of the year titles.
+    'Anionen': 70,
+    'Arzneimittel': 70,
+    'BTEX':  220,
+    'Einzelstoffe': 220,
+    'Haerte': 340,
+    'Kationen': 340,
+    'Komplexbildner': 520,
+    'LHKW': 710,
+    'Metabolite': 740,
+    'Metalle': 810,
+    'Organochlorverbindungen': 910,
+    'Organozinnverbindungen': 920,
+    'PAK': 810,
+    'PCB': 810,
+    'Pestizide': 810,
+    'Phthalate': 810,
+    'Roentgenkontrastmittel': 810,
+    'Suessstoffe': 810,
+    'Summenparameter': 810
+  };
+ 
+  var typeTitleY = {  // Y locations of the year titles.
+    'Anionen': 525,
+    'Arzneimittel': 75,
+    'BTEX':  525,
+    'Einzelstoffe': 75,
+    'Haerte': 525,
+    'Kationen': 75,
+    'Komplexbildner': 75,
+    'LHKW': 525,
+    'Metabolite': 75,
+    'Metalle': 490,
+    'Organochlorverbindungen': 525,
+    'Organozinnverbindungen': 75,
+    'PAK': 115,
+    'PCB': 115,
+    'Pestizide': 115,
+    'Phthalate': 115,
+    'Roentgenkontrastmittel': 115,
+    'Suessstoffe': 115,
+    'Summenparameter': 115
+  };
+
+// Störungen nach Wochentag
+    
+  var weekdayCenters = { // Center locations of the bubbles. 
+    'Montag': { x: 200, y: height / 2 },
+    'Dienstag': { x: 300, y: height / 2 },
+    'Mittwoch': { x: 400, y: height / 2 },
+    'Donnerstag': { x: 500, y: height / 2 },
+    'Freitag': { x: 600, y: height / 2 },
+    'Samstag': { x: 700, y: height / 2 },
+    'Sonntag': { x: 800, y: height / 2 },
+  };
+
+  var weekdayTitleX = {  // X locations of the year titles.
+    'Montag': 75,
+    'Dienstag': 220,
+    'Mittwoch': 340,
+    'Donnerstag': 470,
+    'Freitag': 600,
+    'Samstag': 750,
+    'Sonntag': 930,
+  };
 
 
 
