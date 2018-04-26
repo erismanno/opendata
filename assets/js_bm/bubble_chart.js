@@ -1,4 +1,4 @@
-d3.csv('assets/data/bm_bubbles_2016.csv', display); // Daten laden
+d3.csv('assets/data/bm_bubbles_back.csv', display); // Daten laden
 setupButtons(); // Button Setup
 
 //* ------------------------------------------------------------------
@@ -70,8 +70,7 @@ function bubbleChart() {
 //
 // -----------------------------------------------------------------*/
     
-// Used when setting up force and moving around nodes
-  var damper = 0.102;
+
 
 
 
@@ -473,8 +472,8 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
                   '<span class="name">Jahr: </span><span class="value">' +
                   d.year +
                   '</span><br/>' +
-                  '<span class="name">Linienbezeichnung: </span><span class="value">' +
-                  d.linienbez +
+                  '<span class="name">Details: </span><span class="value">' +
+                  d.details +
                   '</span><br/>' +
                   '<span class="name">Konzentration: </span><span class="value">' +
                   d.konzentration +
@@ -482,13 +481,11 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
     tooltip2.showtooltip2(content, d3.event);
   }
 
-  function hideDetail(d) { // tooltip verstecken
-
+function hideDetail(d) { // tooltip verstecken
     d3.select(this)
-      .attr('stroke', d3.rgb(fillColor(d.type)).darker());
-
+        .attr('stroke', d3.rgb(fillColor(d.type)).darker());
     tooltip2.hidetooltip2();
-  }
+}
 
 //* ------------------------------------------------------------------
 //
@@ -512,8 +509,10 @@ var svg = null;
 var bubbles = null;
 var nodes = [];
 var width = 1030; // Konstanten für die Grösse
-var height = 600; // Konstanten für die Grösse
+var height = 1000; // Konstanten für die Grösse
 var center = { x: width / 2, y: height / 2 };  // Locations to move bubbles towards, depending on which view mode is selected.
+// Used when setting up force and moving around nodes
+var damper = 0.102;
 
 
 // Störungen nach Linien
@@ -558,7 +557,7 @@ var yearCenters = { // Center locations of the bubbles.
     2017: { x: (width/6)*5, y: height / 2 }
   };
 
-  var yearsTitleX = { // X locations of the year titles.
+var yearsTitleX = { // X locations of the year titles.
     2013: (width/6)*1,
     2014: (width/6)*2,
     2015: (width/6)*3,
@@ -566,7 +565,7 @@ var yearCenters = { // Center locations of the bubbles.
     2017: (width/6)*5
   };
 
-  var yearsTitleY = { // X locations of the year titles.
+var yearsTitleY = { // X locations of the year titles.
     2013: 65,
     2014: 65,
     2015: 65,
@@ -583,7 +582,7 @@ var durationCenters = { // Center locations of the bubbles.
     'high': { x: 750, y: height / 2 }
   };
 
-  var durationTitleX = { // X locations of the year titles.
+var durationTitleX = { // X locations of the year titles.
     'Kürzer als 30 Minuten': 100,
     '30 Minuten - 2 Stunden': 340,
     '2 Stunden - 12 Stunden': 620,
@@ -592,7 +591,7 @@ var durationCenters = { // Center locations of the bubbles.
     
 // Störungen nach Störungsart
     
-  var typeCenters = { // Center locations of the bubbles. 
+var typeCenters = { // Center locations of the bubbles. 
     Anionen: { x: 200, y: 325 },
     Arzneimittel: { x: 200, y: 275 },
     BTEX: { x: 300, y: 325 },
@@ -614,53 +613,53 @@ var durationCenters = { // Center locations of the bubbles.
     Summenparameter: { x: 800, y: 275 }
   };
 
-  var typeTitleX = {  // X locations of the year titles.
-    'Anionen': 70,
-    'Arzneimittel': 70,
-    'BTEX':  220,
-    'Einzelstoffe': 220,
-    'Haerte': 340,
-    'Kationen': 340,
-    'Komplexbildner': 520,
-    'LHKW': 710,
-    'Metabolite': 740,
-    'Metalle': 810,
-    'Organochlorverbindungen': 910,
-    'Organozinnverbindungen': 920,
-    'PAK': 810,
-    'PCB': 810,
-    'Pestizide': 810,
-    'Phthalate': 810,
-    'Roentgenkontrastmittel': 810,
-    'Suessstoffe': 810,
-    'Summenparameter': 810
+var typeTitleX = {  // X locations of the year titles.
+    'Anionen': 75,
+    'Arzneimittel': 220,
+    'BTEX':  340,
+    'Einzelstoffe': 470,
+    'Haerte': 600,
+    'Kationen': 750,
+    'Komplexbildner': 930,
+    'LHKW': 75,
+    'Metabolite': 220,
+    'Metalle': 340,
+    'Organochlorverbindungen': 470,
+    'Organozinnverbindungen': 600,
+    'PAK': 750,
+    'PCB': 930,
+    'Pestizide': 75,
+    'Phthalate': 220,
+    'Roentgenkontrastmittel': 340,
+    'Suessstoffe': 470,
+    'Summenparameter': 600
   };
  
-  var typeTitleY = {  // Y locations of the year titles.
-    'Anionen': 525,
+var typeTitleY = {  // Y locations of the year titles.
+    'Anionen': 75,
     'Arzneimittel': 75,
-    'BTEX':  525,
+    'BTEX':  75,
     'Einzelstoffe': 75,
-    'Haerte': 525,
+    'Haerte': 75,
     'Kationen': 75,
     'Komplexbildner': 75,
     'LHKW': 525,
-    'Metabolite': 75,
-    'Metalle': 490,
+    'Metabolite': 525,
+    'Metalle': 525,
     'Organochlorverbindungen': 525,
-    'Organozinnverbindungen': 75,
-    'PAK': 115,
-    'PCB': 115,
-    'Pestizide': 115,
-    'Phthalate': 115,
-    'Roentgenkontrastmittel': 115,
-    'Suessstoffe': 115,
-    'Summenparameter': 115
+    'Organozinnverbindungen': 525,
+    'PAK': 525,
+    'PCB': 525,
+    'Pestizide': 750,
+    'Phthalate': 750,
+    'Roentgenkontrastmittel': 750,
+    'Suessstoffe': 750,
+    'Summenparameter': 750
   };
 
 // Störungen nach Wochentag
     
-  var weekdayCenters = { // Center locations of the bubbles. 
+var weekdayCenters = { // Center locations of the bubbles. 
     'Montag': { x: 200, y: height / 2 },
     'Dienstag': { x: 300, y: height / 2 },
     'Mittwoch': { x: 400, y: height / 2 },
@@ -670,7 +669,7 @@ var durationCenters = { // Center locations of the bubbles.
     'Sonntag': { x: 800, y: height / 2 },
   };
 
-  var weekdayTitleX = {  // X locations of the year titles.
+var weekdayTitleX = {  // X locations of the year titles.
     'Montag': 75,
     'Dienstag': 220,
     'Mittwoch': 340,
@@ -683,20 +682,19 @@ var durationCenters = { // Center locations of the bubbles.
 
 
 function update(error, data) {
-    if (error) {
-        console.log(error);
-    }
-    
-    var nodes_2 = createNodes(data);
-    force.nodes(nodes_2);
-
-    svg.selectAll('.bubble').data(nodes_2, function (d) { return d.id; })
+    //var nodes_2 = createNodes(data);
+    //force.nodes(nodes_2);
+    nodes.map(function(d,i){
+       d['konzentration'] = data[i]['konz'];
+        
+        d['radius'] = radiusScale(+data[i]['konz']);
+        
+    });
+    console.log(nodes);
+    svg.selectAll('.bubble').data(nodes, function (d) { return d.id; })
         .transition()
         .duration(2000)
-        .attr('r', function (d) { return d.radius; });
-
- 
-    
+        .attr('r', function (d) { return d.radius; });   
 }
 
 var createNodes = function (rawData) {
@@ -706,7 +704,7 @@ var createNodes = function (rawData) {
     var myNodes = rawData.map(function (d) {
       return {
         id: d.id,
-        radius: d.konz,//radiusScale(+d.konz), // Berechnung Radius für bubbles
+        radius: radiusScale(+d.konz), // Berechnung Radius für bubbles
         konzentration: d.konz, // Ansicht nach Konzentration
         group: d.kategorie, // Darstellung
         duration: d.kategorie, // Ansicht nach Störungsdauer
@@ -714,18 +712,18 @@ var createNodes = function (rawData) {
         year: d.jahr,
         type: d.gruppe,  //vorfall
         weekday: d.wochentag,
-        linienbez: d.linienbezeichnung,  
+        details: d.details,  
         parameter: d.parameter,
         gruppe: d.gruppe,
-        x: Math.random() * 900,
-        y: Math.random() * 800
+        x: 250,//Math.random() * 900,
+        y: 250//Math.random() * 800
       };
     });
-
+    
     // sort them to prevent occlusion of smaller nodes.
     myNodes.sort(function (a, b) { return b.konz - a.konz; });
     
-    console.log(myNodes);
+   
 
     return myNodes;
   }
