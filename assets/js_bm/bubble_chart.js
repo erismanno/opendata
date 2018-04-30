@@ -1,4 +1,5 @@
-d3.csv('assets/data/bm_bubbles_back.csv', display); // Daten laden
+// Daten laden
+d3.csv('assets/data/bm_bubbles_back.csv', display); 
 setupButtons(); // Button Setup
 
 //* ------------------------------------------------------------------
@@ -9,6 +10,11 @@ setupButtons(); // Button Setup
 // erstellen, um die Daten zu laden und um die Daten darzustellen
 //
 // -----------------------------------------------------------------*/
+
+// These will be set in create_nodes and create_vis
+var svg = null;
+var bubbles = null;
+var nodes = [];
 
 var myBubbleChart = bubbleChart();
 
@@ -62,27 +68,247 @@ function bubbleChart() {
 //
 // -----------------------------------------------------------------*/
 
+var width = 1030; // Konstanten für die Grösse
+var height = 1000; // Konstanten für die Grösse
+var center = { x: width / 2, y: 200 };  // Locations to move bubbles towards, depending on which view mode is selected.
+// Used when setting up force and moving around nodes
+var damper = 0.102;
 
+
+// Messungen nach Monaten
+var monthCentersLine1 = 200;
+var monthWidth = 80;
+var monthCenters = { // Center locations of the bubbles. 
+    Januar: { x: 120, y: monthCentersLine1 },
+    Februar: { x: 190, y: monthCentersLine1 },
+    Maerz: { x: 260, y: monthCentersLine1 },
+    April: { x: 340, y: monthCentersLine1 },
+    Mai: { x: 410, y: monthCentersLine1 },
+    Juni: { x: 480, y: monthCentersLine1 },
+    Juli: { x: 550, y: monthCentersLine1 },
+    August: { x: 620, y: monthCentersLine1 },
+    September: { x: 700, y: monthCentersLine1 },
+    Oktober: { x: 770, y: monthCentersLine1 },
+    November: { x: 850, y: monthCentersLine1 },
+    Dezember: { x: 920, y: monthCentersLine1 }
+};
+
+var monthTitleX = {  // X locations of the year titles.
+    'Jan.': 1*monthWidth,
+    'Feb.': 2*monthWidth,
+    'Mar.': 3*monthWidth,
+    'Apr.': 4*monthWidth,
+    'Mai.': 5*monthWidth,
+    'Jun.': 6*monthWidth,
+    'Jul.': 7*monthWidth,
+    'Aug.': 8*monthWidth,
+    'Sep.': 9*monthWidth,
+    'Okt.': 10*monthWidth,
+    'Nov.': 11*monthWidth,
+    'Dez.': 12*monthWidth
+  };
+ 
+// Messung nach Jahren
+var yearCentersY = 200;
+var yearCenters = { // Center locations of the bubbles.
+    2013: { x: 200, y: yearCentersY },
+    2014: { x: 360, y: yearCentersY },
+    2015: { x: 520, y: yearCentersY },
+    2016: { x: 670, y: yearCentersY },
+    2017: { x: 830, y: yearCentersY }
+  };
+
+var yearsTitleX = { // X locations of the year titles.
+    2013: (width/6)*1,
+    2014: (width/6)*2,
+    2015: (width/6)*3,
+    2016: (width/6)*4,
+    2017: (width/6)*5
+  };
+
+var yearsTitleLine1 = 65;
+var yearsTitleY = { // X locations of the year titles.
+    2013: yearsTitleLine1,
+    2014: yearsTitleLine1,
+    2015: yearsTitleLine1,
+    2016: yearsTitleLine1,
+    2017: yearsTitleLine1
+  };
+    
+// Messung nach Konzentration/Bubble-Grösse
+var durationCentersLine1 = 200;
+var durationCenters = { // Center locations of the bubbles.
+    'verylow': { x: 140, y: durationCentersLine1 },
+    'low': { x: 360, y: durationCentersLine1 },
+    'medium': { x: 620, y: durationCentersLine1 },
+    'high': { x: 850, y: durationCentersLine1 }
+  };
+
+var durationTitleX = { // X locations of the year titles.
+    'Sehr Tief': 100,
+    'Tief': 340,
+    'Mittel': 620,
+    'Hoch': 870
+  };
+    
+// Messung nach Parameter
+var typeCenterLine1 = 150;
+var typeCenterLine2 = 300;
+var typeCenterLine3 = 425;
+
+var typeCenterColumn1 = 110;
+var typeCenterColumn2 = 250;
+var typeCenterColumn3 = 360;
+var typeCenterColumn4 = 480;
+var typeCenterColumn5 = 590;
+var typeCenterColumn6 = 730;
+var typeCenterColumn7 = 900;
+    
+var typeCenters = { // Center locations of the bubbles. 
+    Anionen: { x: typeCenterColumn1, y: typeCenterLine1 },
+    Arzneimittel: { x: typeCenterColumn2, y: typeCenterLine1 },
+    BTEX: { x: typeCenterColumn3, y: typeCenterLine1 },
+    Einzelstoffe: { x: typeCenterColumn4, y: typeCenterLine1 },
+    Haerte: { x: typeCenterColumn5, y: typeCenterLine1 },
+    Kationen: { x: typeCenterColumn6, y: typeCenterLine1 },
+    Komplexbildner: { x: typeCenterColumn7, y: typeCenterLine1 },
+    LHKW: { x: typeCenterColumn1, y: typeCenterLine2 },
+    Metabolite: { x: typeCenterColumn2, y: typeCenterLine2 },
+    Metalle: { x: typeCenterColumn3, y: typeCenterLine2 },
+    Organochlorverbindungen: { x: typeCenterColumn4, y: typeCenterLine2 },
+    Organozinnverbindungen: { x: typeCenterColumn5, y: typeCenterLine2 },
+    PAK: { x: typeCenterColumn6, y: typeCenterLine2 },
+    PCB: { x: typeCenterColumn7, y: typeCenterLine2 },
+    Pestizide: { x: typeCenterColumn1, y: typeCenterLine3 },
+    Phthalate: { x: typeCenterColumn2, y: typeCenterLine3 },
+    Roentgenkontrastmittel: { x: typeCenterColumn3, y: typeCenterLine3 },
+    Suessstoffe: { x: typeCenterColumn4, y: typeCenterLine3 },
+    Summenparameter: { x: typeCenterColumn5, y: typeCenterLine3 }
+  };
+
+var typeTitleX = {  // X locations of the year titles.
+    'Anionen': 75,
+    'Arzneimittel': 220,
+    'BTEX':  340,
+    'Einzelstoffe': 470,
+    'Haerte': 600,
+    'Kationen': 750,
+    'Komplexbildner': 930,
+    'LHKW': 75,
+    'Metabolite': 220,
+    'Metalle': 340,
+    'Organochlorverbindungen': 470,
+    'Organozinnverbindungen': 600,
+    'PAK': 750,
+    'PCB': 930,
+    'Pestizide': 75,
+    'Phthalate': 220,
+    'Roentgenkontrastmittel': 340,
+    'Suessstoffe': 470,
+    'Summenparameter': 600
+  };
+
+var typeTitleYLine1 = 50;
+var typeTitleYLine2 = 200;
+var typeTitleYLine3 = 350;
+var typeTitleY = {  // Y locations of the year titles.
+    'Anionen': typeTitleYLine1,
+    'Arzneimittel': typeTitleYLine1,
+    'BTEX':  typeTitleYLine1,
+    'Einzelstoffe': typeTitleYLine1,
+    'Haerte': typeTitleYLine1,
+    'Kationen': typeTitleYLine1,
+    'Komplexbildner': typeTitleYLine1,
+    'LHKW': typeTitleYLine2,
+    'Metabolite': typeTitleYLine2,
+    'Metalle': typeTitleYLine2,
+    'Organochlorverbindungen':  typeTitleYLine2 + 10,
+    'Organozinnverbindungen': typeTitleYLine2 - 10,
+    'PAK': typeTitleYLine2,
+    'PCB': typeTitleYLine2,
+    'Pestizide': typeTitleYLine3,
+    'Phthalate': typeTitleYLine3,
+    'Roentgenkontrastmittel': typeTitleYLine3,
+    'Suessstoffe': typeTitleYLine3,
+    'Summenparameter': typeTitleYLine3
+  };
+
+// Messungen nach Wochentag
+var weekdayCentersY = 200;
+var weekdayCenters = { // Center locations of the bubbles. 
+    'Montag': { x: 110, y: weekdayCentersY },
+    'Dienstag': { x: 250, y: weekdayCentersY },
+    'Mittwoch': { x: 360, y: weekdayCentersY },
+    'Donnerstag': { x: 470, y: weekdayCentersY },
+    'Freitag': { x: 600, y: weekdayCentersY },
+    'Samstag': { x: 730, y: weekdayCentersY },
+    'Sonntag': { x: 900, y: weekdayCentersY },
+  };
+
+var weekdayTitleX = {  // X locations of the year titles.
+    'Montag': 75,
+    'Dienstag': 220,
+    'Mittwoch': 340,
+    'Donnerstag': 470,
+    'Freitag': 600,
+    'Samstag': 750,
+    'Sonntag': 930,
+  };
     
 //* ------------------------------------------------------------------
 //
 // Teil 4 - Datenmanipulation (csv into JS)
 //
 // -----------------------------------------------------------------*/
-    
 
+// Sizes bubbles based on their area instead of raw radius
+  var radiusScale = d3.scale.pow()
+    .exponent(0.5)
+    .range([2, 75]);
 
+/* Here we create a force layout and configure it to use the charge function from above. This also sets some contants to specify how the force layout should behave. More configuration is done below. */ 
+  var force = d3.layout.force()
+    .size([width, height])
+    .charge(charge)
+    .gravity(-0.01)
+    .friction(0.9);
 
+/* Charge function that is called for each node. Charge is proportional to the diameter of the circle (which is stored in the radius attribute of the circle's associated data. This is done to allow for accurate collision detection with nodes of different sizes. Charge is negative because we want nodes to repel. Dividing by 8 scales down the charge to be appropriate for the visualization dimensions. */
+function charge(d) {
+    return -Math.pow(d.radius, 2.0) / 6;
+}
 
-
-
-
-
-  
 
 /* This data manipulation function takes the raw data from the CSV file and converts it into an array of node objects. Each node will store data and visualization values to visualize a bubble. rawData is expected to be an array of data objects, read in from one of d3's loading functions like d3.csv. This function returns the new node array, with a node in that array for each element in the rawData input. */
     
-  //create Nodes
+var createNodes = function (rawData) {
+ 
+/* Use map() to convert raw data into node data. Checkout http://learnjsdata.com/ for more on working with data. */
+      
+    var myNodes = rawData.map(function (d) {
+      return {
+        id: d.id,
+        radius: radiusScale(+d.konz), // Berechnung Radius für bubbles
+        konzentration: d.konz, // Ansicht nach Konzentration
+        group: d.kategorie, // Darstellung
+        duration: d.kategorie, // Ansicht nach Störungsdauer
+        month: d.monat,
+        year: d.jahr,
+        type: d.gruppe,  //vorfall
+        weekday: d.wochentag,
+        details: d.details,  
+        parameter: d.parameter,
+        gruppe: d.gruppe,
+        x: 250,//Math.random() * 900,
+        y: 250//Math.random() * 800
+      };
+    });
+    
+    // sort them to prevent occlusion of smaller nodes.
+    myNodes.sort(function (a, b) { return b.konz - a.konz; });
+
+    return myNodes;
+  }
 
 /* Main entry point to the bubble chart. This function is returned by the parent closure. It prepares the rawData for visualization and adds an svg element to the provided selector and starts the visualization creation process. selector is expected to be a DOM element or CSS selector that points to the parent element of the bubble chart. Inside this element, the code will add the SVG continer for the visualization. rawData is expected to be an array of data objects as provided by a d3 loading function like d3.csv. */
     
@@ -167,7 +393,7 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
 
 //* ------------------------------------------------------------------
 //
-// Teil 6 - Störungen nach Linien
+// Teil 6 - Messung nach Gruppen
 //
 // -----------------------------------------------------------------*/
     
@@ -189,7 +415,7 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
     
   function moveToLines(alpha) {
     return function (d) {
-      var target = lineCenters[d.month];
+      var target = monthCenters[d.month];
       d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
       d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
     };
@@ -201,13 +427,13 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
 
   function showLines() {
       
-    var linesData = d3.keys(linesTitleX);
+    var linesData = d3.keys(monthTitleX);
     var lines = svg.selectAll('.line')
       .data(linesData);
 
     lines.enter().append('text')
       .attr('class', 'line')
-      .attr('x', function (d) { return linesTitleX[d]; })
+      .attr('x', function (d) { return monthTitleX[d]; })
       .attr('y', 65)
       .attr('text-anchor', 'middle')
       .text(function (d) { return d; });
@@ -215,7 +441,7 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
 
 //* ------------------------------------------------------------------
 //
-// Teil 7 - Störungen nach Jahren
+// Teil 7 - Messung nach Jahren
 //
 // -----------------------------------------------------------------*/
  
@@ -263,7 +489,7 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
 
 //* ------------------------------------------------------------------
 //
-// Teil 8 - Störungen nach Störungsdauer
+// Teil 8 - Messung nach Konzentration
 //
 // -----------------------------------------------------------------*/
  
@@ -311,7 +537,7 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
   
 //* ------------------------------------------------------------------
 //
-// Teil 9 - Störungen nach Störungsart
+// Teil 9 - Messung nach Monat
 //
 // -----------------------------------------------------------------*/
     
@@ -359,7 +585,7 @@ Die Positionierung basiert auf dem alpha Parameter des force layouts und wird kl
 
 //* ------------------------------------------------------------------
 //
-// Teil 10 - Störungen nach Wochentag
+// Teil 10 - Messung nach Wochentag
 //
 // -----------------------------------------------------------------*/
     
@@ -489,10 +715,9 @@ function hideDetail(d) { // tooltip verstecken
 
 //* ------------------------------------------------------------------
 //
-// The End
+// Year Slider
 //
 // -----------------------------------------------------------------*/
-
 
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
@@ -504,243 +729,14 @@ slider.oninput = function() {
     d3.csv('assets/data/bm_bubbles_'+this.value+'.csv', update); // Daten laden
 }
 
-// These will be set in create_nodes and create_vis
-var svg = null;
-var bubbles = null;
-var nodes = [];
-var width = 1030; // Konstanten für die Grösse
-var height = 1000; // Konstanten für die Grösse
-var center = { x: width / 2, y: height / 2 };  // Locations to move bubbles towards, depending on which view mode is selected.
-// Used when setting up force and moving around nodes
-var damper = 0.102;
-
-
-// Störungen nach Linien
-    
-  var lineCenters = { // Center locations of the bubbles. 
-    Januar: { x: 215, y: height / 2 },
-    Februar: { x: 270, y: height / 2 },
-    Maerz: { x: 325, y: height / 2 },
-    April: { x: 380, y: height / 2 },
-    Mai: { x: 435, y: height / 2 },
-    Juni: { x: 490, y: height / 2 },
-    Juli: { x: 545, y: height / 2 },
-    August: { x: 600, y: height / 2 },
-    September: { x: 660, y: height / 2 },
-    Oktober: { x: 720, y: height / 2 },
-    November: { x: 775, y: height / 2 },
-    Dezember: { x: 830, y: height / 2 }
-  };
-
-  var linesTitleX = {  // X locations of the year titles.
-    'Januar': 48,
-    'Februar': 130,
-    'Maerz': 227,
-    'April': 313,
-    'Mai': 400,
-    'Juni': 500,
-    'Juli': 583,
-    'August': 658,
-    'September': 732,
-    'Oktober': 802,
-    'November': 898,
-    'Dezember': 988
-  };
- 
-// Störungen nach Jahren
-    
-var yearCenters = { // Center locations of the bubbles.
-    2013: { x: (width/6)*1, y: height / 2 },
-    2014: { x: (width/6)*2, y: height / 2 },
-    2015: { x: (width/6)*3, y: height / 2 },
-    2016: { x: (width/6)*4, y: height / 2 },
-    2017: { x: (width/6)*5, y: height / 2 }
-  };
-
-var yearsTitleX = { // X locations of the year titles.
-    2013: (width/6)*1,
-    2014: (width/6)*2,
-    2015: (width/6)*3,
-    2016: (width/6)*4,
-    2017: (width/6)*5
-  };
-
-var yearsTitleY = { // X locations of the year titles.
-    2013: 65,
-    2014: 65,
-    2015: 65,
-    2016: 65,
-    2017: 65
-  };
-    
-// Störungen nach Störungsdauer/Bubble-Grösse
-
-var durationCenters = { // Center locations of the bubbles.
-    'verylow': { x: 250, y: height / 2 },
-    'low': { x: 400, y: height / 2 },
-    'medium': { x: 600, y: height / 2 },
-    'high': { x: 750, y: height / 2 }
-  };
-
-var durationTitleX = { // X locations of the year titles.
-    'Kürzer als 30 Minuten': 100,
-    '30 Minuten - 2 Stunden': 340,
-    '2 Stunden - 12 Stunden': 620,
-    'Länger als 12 Stunden': 870
-  };
-    
-// Störungen nach Störungsart
-    
-var typeCenters = { // Center locations of the bubbles. 
-    Anionen: { x: 200, y: 325 },
-    Arzneimittel: { x: 200, y: 275 },
-    BTEX: { x: 300, y: 325 },
-    Einzelstoffe: { x: 300, y: 275 },
-    Haerte: { x: 400, y: 325 },
-    Kationen: { x: 400, y: 275 },
-    Komplexbildner: { x: 500, y: 300 },
-    LHKW: { x: 600, y: 325 },
-    Metabolite: { x: 600, y: 275 },
-    Metalle: { x: 700, y: 325 },
-    Organochlorverbindungen: { x: 700, y: 275 },
-    Organozinnverbindungen: { x: 800, y: 325 },
-    PAK: { x: 800, y: 275 },
-    PCB: { x: 800, y: 275 },
-    Pestizide: { x: 800, y: 275 },
-    Phthalate: { x: 800, y: 275 },
-    Roentgenkontrastmittel: { x: 800, y: 275 },
-    Suessstoffe: { x: 800, y: 275 },
-    Summenparameter: { x: 800, y: 275 }
-  };
-
-var typeTitleX = {  // X locations of the year titles.
-    'Anionen': 75,
-    'Arzneimittel': 220,
-    'BTEX':  340,
-    'Einzelstoffe': 470,
-    'Haerte': 600,
-    'Kationen': 750,
-    'Komplexbildner': 930,
-    'LHKW': 75,
-    'Metabolite': 220,
-    'Metalle': 340,
-    'Organochlorverbindungen': 470,
-    'Organozinnverbindungen': 600,
-    'PAK': 750,
-    'PCB': 930,
-    'Pestizide': 75,
-    'Phthalate': 220,
-    'Roentgenkontrastmittel': 340,
-    'Suessstoffe': 470,
-    'Summenparameter': 600
-  };
- 
-var typeTitleY = {  // Y locations of the year titles.
-    'Anionen': 75,
-    'Arzneimittel': 75,
-    'BTEX':  75,
-    'Einzelstoffe': 75,
-    'Haerte': 75,
-    'Kationen': 75,
-    'Komplexbildner': 75,
-    'LHKW': 525,
-    'Metabolite': 525,
-    'Metalle': 525,
-    'Organochlorverbindungen': 525,
-    'Organozinnverbindungen': 525,
-    'PAK': 525,
-    'PCB': 525,
-    'Pestizide': 750,
-    'Phthalate': 750,
-    'Roentgenkontrastmittel': 750,
-    'Suessstoffe': 750,
-    'Summenparameter': 750
-  };
-
-// Störungen nach Wochentag
-    
-var weekdayCenters = { // Center locations of the bubbles. 
-    'Montag': { x: 200, y: height / 2 },
-    'Dienstag': { x: 300, y: height / 2 },
-    'Mittwoch': { x: 400, y: height / 2 },
-    'Donnerstag': { x: 500, y: height / 2 },
-    'Freitag': { x: 600, y: height / 2 },
-    'Samstag': { x: 700, y: height / 2 },
-    'Sonntag': { x: 800, y: height / 2 },
-  };
-
-var weekdayTitleX = {  // X locations of the year titles.
-    'Montag': 75,
-    'Dienstag': 220,
-    'Mittwoch': 340,
-    'Donnerstag': 470,
-    'Freitag': 600,
-    'Samstag': 750,
-    'Sonntag': 930,
-  };
-
-
-
 function update(error, data) {
-    //var nodes_2 = createNodes(data);
-    //force.nodes(nodes_2);
     nodes.map(function(d,i){
-       d['konzentration'] = data[i]['konz'];
-        
-        d['radius'] = radiusScale(+data[i]['konz']);
-        
+        d['konzentration'] = data[i]['konz'];
+        d['radius'] = radiusScale(+data[i]['konz']); 
     });
-    console.log(nodes);
+    
     svg.selectAll('.bubble').data(nodes, function (d) { return d.id; })
         .transition()
         .duration(2000)
         .attr('r', function (d) { return d.radius; });   
-}
-
-var createNodes = function (rawData) {
- 
-/* Use map() to convert raw data into node data. Checkout http://learnjsdata.com/ for more on working with data. */
-      
-    var myNodes = rawData.map(function (d) {
-      return {
-        id: d.id,
-        radius: radiusScale(+d.konz), // Berechnung Radius für bubbles
-        konzentration: d.konz, // Ansicht nach Konzentration
-        group: d.kategorie, // Darstellung
-        duration: d.kategorie, // Ansicht nach Störungsdauer
-        month: d.monat,
-        year: d.jahr,
-        type: d.gruppe,  //vorfall
-        weekday: d.wochentag,
-        details: d.details,  
-        parameter: d.parameter,
-        gruppe: d.gruppe,
-        x: 250,//Math.random() * 900,
-        y: 250//Math.random() * 800
-      };
-    });
-    
-    // sort them to prevent occlusion of smaller nodes.
-    myNodes.sort(function (a, b) { return b.konz - a.konz; });
-    
-   
-
-    return myNodes;
-  }
-
-// Sizes bubbles based on their area instead of raw radius
-  var radiusScale = d3.scale.pow()
-    .exponent(0.5)
-    .range([2, 75]);
-
-/* Here we create a force layout and configure it to use the charge function from above. This also sets some contants to specify how the force layout should behave. More configuration is done below. */ 
-  var force = d3.layout.force()
-    .size([width, height])
-    .charge(charge)
-    .gravity(-0.01)
-    .friction(0.9);
-
-/* Charge function that is called for each node. Charge is proportional to the diameter of the circle (which is stored in the radius attribute of the circle's associated data. This is done to allow for accurate collision detection with nodes of different sizes. Charge is negative because we want nodes to repel. Dividing by 8 scales down the charge to be appropriate for the visualization dimensions. */
-function charge(d) {
-    return -Math.pow(d.radius, 2.0) / 6;
 }

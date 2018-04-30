@@ -6,7 +6,7 @@ id,wochentag,konz,kategorie,jahr,monat,gruppe,parameter,details
 5,Freitag,12,verylow,2017,Mai,Haerte,Parameter Haerte,Prüfmethode 5
 7,Samstag,38,low,2013,Juni,Kationen,Parameter Kationen,Prüfmethode 6
 8,Sonntag,38,low,2014,Juli,Komplexbildner,Parameter Komplexbildner,Prüfmethode 7
-8,Montag,38,low,2015,August,LHKW,Parameter LHKW,Prüfmethode 8
+20,Montag,38,low,2015,August,LHKW,Parameter LHKW,Prüfmethode 8
 9,Dienstag,15,verylow,2016,September,Metabolite,Parameter Metabolite,Prüfmethode 9
 10,Mittwoch,16,verylow,2017,Oktober,Metalle,Parameter Metabolite,Prüfmethode 10
 11,Donnerstag,17,verylow,2013,November,Organochlorverbindungen,Parameter Metabolite,Prüfmethode 11
@@ -17,4 +17,4 @@ id,wochentag,konz,kategorie,jahr,monat,gruppe,parameter,details
 16,Dienstag,22,verylow,2013,April,Phthalate,Parameter Metabolite,Prüfmethode 16
 17,Mittwoch,23,verylow,2014,Mai,Roentgenkontrastmittel,Parameter Metabolite,Prüfmethode 17
 18,Donnerstag,24,verylow,2015,Juni,Suessstoffe,Parameter Metabolite,Prüfmethode 18
-19,Freitag,25,verylow,2016,Juli,Summenparameter,Parameter Metabolite,Prüfmethode 19
+19,Freitag,25,medium,2016,Juli,Summenparameter,Parameter Metabolite,Prüfmethode 19
