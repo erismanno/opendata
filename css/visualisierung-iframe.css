@@ -1,0 +1,19 @@
+html, body, .visualisierung{
+    width: 100%;
+    height: 100%;
+}
+.tooltip2{
+    position: absolute;
+    top: 00px;
+    left: 00px;
+    -moz-border-radius:5px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    background: #fff;
+    opacity: .9;
+    color: black;
+    padding: 10px;
+    width: 400px;
+    z-index: 10;
+    font-size: 13px;
+}

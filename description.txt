@@ -1,4 +1,0 @@
-Unsere Visualisierung stellt einen Störungsdatensatz von Bernmobil als Bubble Chart dar. Jede Störung entspricht einer Bubble, deren Grösse von der Dauer der Störung abhängt. unsere Applikation bietet die Möglichkeit, die Bubbles nach verschiedenen Ansichten zu filtern, zu vergleichen, und interessante Erkenntnisse daraus abzuleiten. 
-
-Emanuel Hohn
-Thomas Heuberger

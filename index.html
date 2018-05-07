@@ -1,87 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Open Data App University of Bern">
-    <meta name="author" content="Thomas Heuberger und Emanuel Hohn">
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Open Data App University of Bern">
+        <meta name="author" content="Oliver Erismann und Robert Schranz">
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-    <title>BernMobil Visualisierung</title>
+        <title>iFrame Rhein Daten Visualisierung</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/visualisierung-iframe.css">
+    </head>
 
-    <!-- Custom styles for this template -->
-    <link href="assets/css/main.css" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css_bm/BernMobil.css">
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/bubble_chart.css">
-	
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body data-spy="scroll" data-offset="0" data-target="#theMenu">
-		
-	<!-- Menu -->
-	
-	
-	<!-- ========== HEADER SECTION ========== -->
-	<section id="start" name="start"></section>
-	
-	
-	
-	
-<!-- ========== SERVICES - GREY SECTION ========== -->
-<!-- ========== CHARTS - DARK GREY SECTION ========== -->
-      
-<!-- ======== HEADER APP - GREY SECTION ====== -->  
-	
-    
-    <!-- ========== Visualisierung - WHITE ================ -->
-    <div id="w2">
-        
-    <div id="g">
-          <div id="toolbar">
-          <a id="all" class="button active">Alle Messungen</a>
-          <a id="type" class="button">Messung nach Gruppe</a>
-          <a id="duration" class="button">Messung nach Konzentration</a>
-          <a id="weekday" class="button">Messung nach Wochentag</a>
-          <a id="line" class="button">Messung nach Monat</a>
-          <a id="year" class="button">Messung nach Jahren</a>
-          </div>
-        <div class="slidecontainer">
-  <input type="range" min="2013" max="2017" value="2016" class="slider" id="myRange">
-            <p>Value: <span id="demo"></span></p>
-</div>
-      </div>
-        <div id="vis"></div> <!-- VISUALISIERUNGS-DIV -->
-    
+  <body>
+    <div class="visualisierung">
+        <div class="visualisierung__navigation">
+            <div class="visualisierung__darstellungstyp">
+                <a id="all" class="button active">Alle Messungen</a>
+                <a id="type" class="button">Messung nach Gruppe</a>
+                <!--<a id="duration" class="button">Messung nach Konzentration</a>
+                <a id="weekday" class="button">Messung nach Wochentag</a>
+                <a id="line" class="button">Messung nach Monat</a>
+                <a id="year" class="button">Messung nach Jahren</a>-->
+            </div>
+            <div class="visualisierung__darstellungseinstellungen">
+                <label for="visualisierung__darstellungsjahr">
+                    Jahr:
+                    <span class="visualisierung__darstellungsjahrlabel"></span>
+                </label>
+                <input type="range" min="2013" max="2017" value="2017" class="visualisierung__darstellungsjahr" id="visualisierung__darstellungsjahr">
+            </div>
+        </div>
+        <div class="visualisierung__svgcontainer"></div>
    </div> 
-	<!-- ========== VORGEHEN - GREY SECTION ========== -->
-<section id="vorgehen" name="vorgehen"></section>
-	
-    
-	
-    <!-- ========== SCRIPT SECTION ========= -->
-    
-    <script src="assets/D3/d3.js"></script>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.js"></script>
-    <script src="assets/bootstrap/js/bootstrap-treeview.js"></script>
-	<script src="assets/js/Chart.js"></script>
-	<script src="assets/js/classie.js"></script>
-    <script src="assets/js/smoothscroll.js"></script>
-	<script src="assets/js/main.js"></script>
-    <script src="assets/js_bm/tooltip.js"></script>
-    <script src="assets/js_bm/bubble_chart.js"></script>
+
+    <script src="js/D3/d3.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+	<script src="js/Chart.js"></script>
+    <script src="js/bubble/tooltip.js"></script>
+    <script src="js/bubble/constants.js"></script>
+    <script src="js/bubble/functions.js"></script>
+    <script src="js/bubble/bubble_chart.js"></script>
 </body>
 </html>
