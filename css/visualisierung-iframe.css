@@ -17,3 +17,6 @@ html, body, .visualisierung{
     z-index: 10;
     font-size: 13px;
 }
+.visualisierung__navigation{
+    width:20%;
+}

@@ -1,6 +1,5 @@
 // Daten laden
-d3.csv('http://localhost:8000/get.php?year=2017', display); 
-setupButtons(); // Button Setup
+d3.csv(api+'get.php?year=2017', display);
 /* Here we create a force layout and configure it to use the charge function from above.
 This also sets some contants to specify how the force layout should behave. */
 var force = d3.layout.force()
@@ -69,6 +68,22 @@ function bubbleChart() {
         nodes = createNodes(rawData);
         // Set the force's nodes to our newly created nodes array.
         force.nodes(nodes);
+        var alleFrachtWerte = rawData.map(function(d,i){
+            return d.konz;
+        }).filter(function(val){
+            return val > 0;
+        }).sort(compareNumbers);
+        $(".visualisierung__range").slider({
+              range: true,
+              step: 1,
+              min: 0,
+              max: alleFrachtWerte.length-1,
+              values: [ 0, alleFrachtWerte.length-1 ],
+              slide: function( event, ui ) {
+                  werteBereich(alleFrachtWerte[ui.values[0]],alleFrachtWerte[ui.values[1]]);
+              }
+        });
+
 
     /* Create a SVG element inside the provided selector with desired size. */
 
@@ -110,28 +125,12 @@ function bubbleChart() {
     //
     // -----------------------------------------------------------------*/
 
-      /* Externally accessible function (this is attached to the returned chart function). Allows the visualization to toggle between "single group" and "split by ..." modes. */
+      /* Externally accessible function (this is attached to the returned chart function).
+      Allows the visualization to toggle between "single group" and "split by ..." modes. */
 
       chart.toggleDisplay = function (displayName) {
-          console.log("asdf");
-        if (displayName === 'line') {
-          splitBubblesintoLines();
-        } else if (displayName === 'year') {
-          splitBubblesintoYears();
-        } else if (displayName === 'duration') {
-          splitBubblesintoDuration();
-        } else if (displayName === 'type') {
+        if (displayName === 'type') {
           splitBubblesintoType();
-        } else if (displayName === 'weekday') {
-          splitBubblesintoWeekday();
-        } else {
-          groupBubbles();
-        }
-      };
-
-      chart.toggleDisplay2 = function (displayName2) {
-        if (displayName === 'line') {
-          splitBubblesintoLines();
         } else {
           groupBubbles();
         }
@@ -140,6 +139,14 @@ function bubbleChart() {
       return chart;
 }
 
+$(".visualisierung__nachtypgruppieren").on("change", function(){
+    if($(this).is(':checked')){
+        splitBubblesintoType();
+    }else{
+        groupBubbles();
+    }
+});
+
 
 //* ------------------------------------------------------------------
 //
@@ -147,14 +154,11 @@ function bubbleChart() {
 //
 // -----------------------------------------------------------------*/
 
-var slider = document.getElementsByClassName("visualisierung__darstellungsjahr")[0];
-var output = document.getElementsByClassName("visualisierung__darstellungsjahrlabel")[0];
-output.innerHTML = slider.value; // Display the default slider value
+var slider = document.getElementsByClassName("visualisierung__jahr")[0];
 
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
-    output.innerHTML = this.value;
-    d3.csv('http://localhost:8000/get.php?year='+this.value, update); // Daten laden
+    d3.csv(api+'get.php?year='+this.value, update); // Daten laden
 }
 
 function update(error, data) {
@@ -169,10 +173,51 @@ function update(error, data) {
         }else{
             d['radius'] = 0;
         }
+        //d['type'] = data[i]['gruppe'];
     });
     force.start();
     svg.selectAll('.bubble').data(nodes, function (d) { return d.id; })
         .transition()
         .duration(2000)
-        .attr('r', function (d) { return d.radius; });   
+        .attr('r', function (d) { return d.radius; })
+        .attr('fill', function (d) { return fillColor(d.type); })
+        .attr('stroke', function (d) { return d3.rgb(fillColor(d.type)).darker(); });
+    var alleFrachtWerte = data.map(function(d,i){
+        return d.konz;
+    }).filter(function(val){
+        return val > 0;
+    }).sort(compareNumbers);
+    $(".visualisierung__range").slider({
+        range: true,
+        step: 1,
+        min: 0,
+        max: alleFrachtWerte.length-1,
+        values: [ 0, alleFrachtWerte.length-1 ],
+        slide: function( event, ui ) {
+            werteBereich(alleFrachtWerte[ui.values[0]],alleFrachtWerte[ui.values[1]]);
+        }
+    });
+}
+
+// Wertebereich
+function werteBereich(min, max){
+    radiusScale.domain([min, max]);
+    console.log("min"+min+"max"+max);
+    nodes = nodes.map(function(d){
+        //console.log(d);
+        //debugger;
+        if(+d.konzentration < min || +d.konzentration > max){
+            var neu = d;
+            neu.radius = 0;
+            return neu;
+        }else{
+            console.log(radiusScale(max)+" "+radiusScale(+d.konzentration));
+            d.radius = radiusScale(+d.konzentration);
+            return d;
+        }
+    });
+    bubbles.transition()
+        .duration(2000)
+        .attr('r', function (d) { return d.radius; });
+    force.start();
 }

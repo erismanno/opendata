@@ -1,9 +1,10 @@
+var api = "http://opendata-visual.ch.tajo.host.ch/api/";
 var svg = null;
 var bubbles = null;
 var nodes = [];
 var radiusScale = d3.scale.pow()
     .exponent(0.5)
-    .range([5, 100]);
+    .range([5, 70]);
 var width = $(window).width(); // Konstanten für die Grösse, initial 1030
 var height = $(window).height()-$(".visualisierung__navigation").height(); // Konstanten für die Grösse, initial 1000
 var center = { x: width / 2, y: height/2 };  // Locations to move bubbles towards, depending on which view mode is selected.
@@ -87,9 +88,9 @@ var durationTitleX = { // X locations of the year titles.
 };
 
 // Messung nach Parameter
-var typeCenterLine1 = 150;
-var typeCenterLine2 = 300;
-var typeCenterLine3 = 425;
+var typeCenterLine1 = 150*height/1000;
+var typeCenterLine2 = 300*height/1000;
+var typeCenterLine3 = 425*height/1000;
 
 var typeCenterColumn1 = width/1030*110;
 var typeCenterColumn2 = width/1030*250;
@@ -143,9 +144,9 @@ var typeTitleX = {  // X locations of the year titles.
     'Summenparameter': width/1030*600
 };
 
-var typeTitleYLine1 = 50;
-var typeTitleYLine2 = 200;
-var typeTitleYLine3 = 350;
+var typeTitleYLine1 = 50*height/1000;
+var typeTitleYLine2 = 200*height/1000;
+var typeTitleYLine3 = 350*height/1000;
 var typeTitleY = {  // Y locations of the year titles.
     'Anionen': typeTitleYLine1,
     'Arzneimittel': typeTitleYLine1,

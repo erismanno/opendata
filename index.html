@@ -12,25 +12,27 @@
         <link href="css/bootstrap.css" rel="stylesheet">
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/visualisierung-iframe.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     </head>
 
   <body>
     <div class="visualisierung">
         <div class="visualisierung__navigation">
-            <div class="visualisierung__darstellungstyp">
-                <a id="all" class="button active">Alle Messungen</a>
-                <a id="type" class="button">Messung nach Gruppe</a>
-                <!--<a id="duration" class="button">Messung nach Konzentration</a>
-                <a id="weekday" class="button">Messung nach Wochentag</a>
-                <a id="line" class="button">Messung nach Monat</a>
-                <a id="year" class="button">Messung nach Jahren</a>-->
-            </div>
             <div class="visualisierung__darstellungseinstellungen">
-                <label for="visualisierung__darstellungsjahr">
-                    Jahr:
-                    <span class="visualisierung__darstellungsjahrlabel"></span>
-                </label>
-                <input type="range" min="2013" max="2017" value="2017" class="visualisierung__darstellungsjahr" id="visualisierung__darstellungsjahr">
+                <label for="visualisierung__jahr">Jahr</label>
+                <select class="visualisierung__jahr" id="visualisierung__jahr">
+                    <option>2017</option>
+                    <option>2016</option>
+                    <option>2015</option>
+                    <option>2014</option>
+                    <option>2013</option>
+                </select>
+                <br>
+                <label for="visualisierung__range">Wertebereich</label>
+                <div class="visualisierung__range" id="visualisierung__range"></div>
+                <br>
+                <input type="checkbox" class="visualisierung__nachtypgruppieren" id="visualisierung__nachtypgruppieren">
+                <label for="visualisierung__nachtypgruppieren">Nach Typ gruppieren</label><br>
             </div>
         </div>
         <div class="visualisierung__svgcontainer"></div>
@@ -38,6 +40,7 @@
 
     <script src="js/D3/d3.js"></script>
     <script src="js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="js/bootstrap.js"></script>
 	<script src="js/Chart.js"></script>
     <script src="js/bubble/tooltip.js"></script>

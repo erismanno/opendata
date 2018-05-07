@@ -9,19 +9,6 @@ function display(error, data) {
     }
     myBubbleChart('.visualisierung__svgcontainer', data);
 }
-/* Setup der Layout Buttons damit zwischen den Ansichten getogglet werden kann */
-function setupButtons() {
-    d3.select('.visualisierung__darstellungstyp')
-        .selectAll('.button')
-        .on('click', function () {
-            d3.selectAll('.button').classed('active', false); // Remove active class from all buttons
-            var button = d3.select(this); // Find the button just clicked
-            button.classed('active', true); // Set it as the active button
-            var buttonId = button.attr('id'); // Get the id of the button
-            myBubbleChart.toggleDisplay(buttonId); // Toggle the bubble chart based on the currently clicked button.
-        });
-}
-
 /* Helper-Funktion zum konvertieren von Zahlen in einen String mit Kommas für schönere Darstellung */
 function addCommas(nStr) {
     nStr += '';
@@ -46,19 +33,27 @@ var tooltip2 = floatingtooltip2('gates_tooltip2', 240);
 
 var fillColor = d3.scale.ordinal()
     .domain(['Anionen', 'Arzneimittel', 'BTEX', 'Einzelstoffe', 'Haerte', 'Kationen', 'Komplexbildner', 'LHKW', 'Metabolite','Metalle', 'Organochlorverbindungen', 'Organozinnverbindungen', 'PAK', 'PCB', 'Pestizide', 'Phthalate', 'Roentgenkontrastmittel', 'Suessstoffe', 'Summenparameter'])
-    .range(['#03A9F4', '#FF5722', '#727272', '#4CAF50', '#FFEB3B', '#303F9F', '#CD003C', '#8BC34A', '#795548', '#FFC107', '#87925d', '#42325d', '#CDDC39', '#9C27B0', '#000000', '#000000', '#000000', '#000000', '#000000', '#000000']);
+    .range(['#03A9F4', '#FF5722', '#727272', '#4CAF50', '#FFEB3B', '#303F9F', '#CD003C', '#8BC34A', '#795548', '#FFC107', '#87925d', '#42325d', '#CDDC39', '#9C27B0', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4']);
 
 /* Tooltip-Funktion*/
 function showDetail(d) {
 
     d3.select(this).attr('stroke', 'black');
 
+    if(+d.konzentration>1000){
+        var wert = Math.round(+d.konzentration/1000) +" Tonnen pro Tag";
+    }else if(+d.konzentration<5){
+        var wert = Math.round(+d.konzentration*1000) +" Gramm pro Tag";
+    }else{
+        var wert = Math.round(+d.konzentration)+" KG pro Tag";
+    }
+
     var content = '<span class="name">Parameter: </span><span class="value">' +
         d.parameter +
         '</span><br/>' +
         '<span class="name">Gruppe: </span><span class="value">' +
         d.gruppe +
-        '</span><br/>' +
+        '</span><br/>' /*+
         '<span class="name">Monat: </span><span class="value">' +
         d.month +
         '</span><br/>' +
@@ -67,10 +62,10 @@ function showDetail(d) {
         '</span><br/>' +
         '<span class="name">Details: </span><span class="value">' +
         d.details +
-        '</span><br/>' +
-        '<span class="name">Konzentration: </span><span class="value">' +
-        d.konzentration +
-        '</span><br/>';
+        '</span><br/>' */+
+        '<span class="name">Durchschnittliche Fracht: </span><span class="value">' +
+        wert +
+        '</span><br/>Für weitere Informationen auf Kreis klicken (todo).';
     tooltip2.showtooltip2(content, d3.event);
 }
 
@@ -86,11 +81,7 @@ function hideDetail(d) { // tooltip verstecken
         function is set to move all nodes to the center of the visualization. */
 
 function groupBubbles() {
-    hideLines();
-    hideYears();
-    hideDuration();
     hideType();
-    hideWeekday();
 
     force.on('tick', function (e) {
         bubbles.each(moveToCenter(e.alpha))
@@ -116,155 +107,10 @@ function moveToCenter(alpha) {
     };
 }
 
-function splitBubblesintoLines() {
-    showLines();
-    hideYears();
-    hideDuration();
-    hideType();
-    hideWeekday();
-
-    force.on('tick', function (e) {
-        bubbles.each(moveToLines(e.alpha))
-            .attr('cx', function (d) { return d.x; })
-            .attr('cy', function (d) { return d.y; });
-    });
-
-    force.start();
-}
-
-function moveToLines(alpha) {
-    return function (d) {
-        var target = monthCenters[d.month];
-        d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
-        d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
-    };
-}
-
-function hideLines() {
-    svg.selectAll('.line').remove();
-}
-
-function showLines() {
-
-    var linesData = d3.keys(monthTitleX);
-    var lines = svg.selectAll('.line')
-        .data(linesData);
-
-    lines.enter().append('text')
-        .attr('class', 'line')
-        .attr('x', function (d) { return monthTitleX[d]; })
-        .attr('y', 65)
-        .attr('text-anchor', 'middle')
-        .text(function (d) { return d; });
-}
-
-//* ------------------------------------------------------------------
-//
-// Teil 7 - Messung nach Jahren
-//
-// -----------------------------------------------------------------*/
-
-function splitBubblesintoYears() {
-    showYears();
-    hideLines();
-    hideDuration();
-    hideType();
-    hideWeekday();
-
-    force.on('tick', function (e) {
-        bubbles.each(moveToYears(e.alpha))
-            .attr('cx', function (d) { return d.x; })
-            .attr('cy', function (d) { return d.y; });
-    });
-
-    force.start();
-}
-
-function moveToYears(alpha) {
-    return function (d) {
-        var target = yearCenters[d.year];
-        d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
-        d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
-    };
-}
-
-function hideYears() {
-    svg.selectAll('.year').remove();
-}
-
-function showYears() {
-
-    var yearsData = d3.keys(yearsTitleX);
-    var years = svg.selectAll('.year')
-        .data(yearsData);
-
-    years.enter().append('text')
-        .attr('class', 'year')
-        .attr('x', function (d) { return yearsTitleX[d]; })
-        .attr('y', function (d) { return yearsTitleY[d]; })
-        .attr('text-anchor', 'middle')
-        .text(function (d) { return d; });
-}
-
-//* ------------------------------------------------------------------
-//
-// Teil 8 - Messung nach Konzentration
-//
-// -----------------------------------------------------------------*/
-
-function splitBubblesintoDuration() {
-    showDuration();
-    hideYears();
-    hideLines();
-    hideType();
-    hideWeekday();
-
-    force.on('tick', function (e) {
-        bubbles.each(moveToDuration(e.alpha))
-            .attr('cx', function (d) { return d.x; })
-            .attr('cy', function (d) { return d.y; });
-    });
-
-    force.start();
-}
-
-function moveToDuration(alpha) {
-    return function (d) {
-        var target = durationCenters[d.duration];
-        d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
-        d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
-    };
-}
-
-function hideDuration() {
-    svg.selectAll('.duration').remove();
-}
-
-function showDuration() {
-    var durationData = d3.keys(durationTitleX);
-    var duration = svg.selectAll('.duration')
-        .data(durationData);
-
-    duration.enter().append('text')
-        .attr('class', 'duration')
-        .attr('x', function (d) { return durationTitleX[d]; })
-        .attr('y', 65)
-        .attr('text-anchor', 'middle')
-        .text(function (d) { return d; });
-}
-
-//* ------------------------------------------------------------------
-//
-// Teil 9 - Messung nach Monat
-//
-// -----------------------------------------------------------------*/
+// Messung nach Typ
 
 function splitBubblesintoType() {
     showType();
-    hideYears();
-    hideLines();
-    hideDuration();
-    hideWeekday();
 
     force.on('tick', function (e) {
         bubbles.each(moveToType(e.alpha))
@@ -304,50 +150,7 @@ function showType() {
         .text(function (d) { return d; });
 }
 
-//* ------------------------------------------------------------------
-//
-// Teil 10 - Messung nach Wochentag
-//
-// -----------------------------------------------------------------*/
-
-function splitBubblesintoWeekday() {
-    showWeekday();
-    hideType();
-    hideYears();
-    hideLines();
-    hideDuration();
-
-    force.on('tick', function (e) {
-        bubbles.each(moveToWeekday(e.alpha))
-            .attr('cx', function (d) { return d.x; })
-            .attr('cy', function (d) { return d.y; });
-    });
-
-    force.start();
-}
-
-function moveToWeekday(alpha) {
-    return function (d) {
-        var target = weekdayCenters[d.weekday];
-        d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
-        d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
-    };
-}
-
-function hideWeekday() {
-    svg.selectAll('.weekday').remove();
-}
-
-function showWeekday() {
-
-    var weekdayData = d3.keys(weekdayTitleX);
-    var type = svg.selectAll('.weekday')
-        .data(weekdayData);
-
-    type.enter().append('text')
-        .attr('class', 'weekday')
-        .attr('x', function (d) { return weekdayTitleX[d]; })
-        .attr('y', 65)
-        .attr('text-anchor', 'middle')
-        .text(function (d) { return d; });
+function compareNumbers(a, b)
+{
+    return a - b;
 }
