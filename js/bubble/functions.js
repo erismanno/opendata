@@ -125,7 +125,7 @@ function moveToType(alpha) {
     return function (d) {
         if(d.gruppe != "NULL"){
             var target = typeCenters[d.gruppe];
-            console.log(d.gruppe);
+            //console.log(d.gruppe);
             d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
             d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
         }
@@ -153,4 +153,32 @@ function showType() {
 function compareNumbers(a, b)
 {
     return a - b;
+}
+
+window.onresize = function(event) {
+    resize();
+};
+
+function resize()
+{
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var numberOfColums = Math.floor(windowWidth/typeGridWidth);
+    if (numberOfColums < 1) {numberOfColums = 1;}
+    var numberOfRows = Math.ceil(totalNumberOfParameters/numberOfColums);
+    
+    console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
+    var parameterIndex = 0;
+    for (var i = 0; i < numberOfRows; i++) {
+        for(var j = 0; j < numberOfColums; j++) {
+            if(parameterIndex < totalNumberOfParameters){
+                parameterX[parameterIndex] = j*typeGridWidth;
+                parameterY[parameterIndex] = i*typeGridHeight;
+                parameterIndex++;
+            }
+        }
+    }
+    console.log(parameterX);
+    console.log(parameterY);
+    splitBubblesintoType();
 }

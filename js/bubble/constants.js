@@ -88,6 +88,14 @@ var durationTitleX = { // X locations of the year titles.
 };
 
 // Messung nach Parameter
+var totalNumberOfParameters = 19;
+
+var parameterX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var parameterY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+var typeGridWidth = 300;
+var typeGridHeight = 300;
+
 var typeCenterLine1 = 150*height/1000;
 var typeCenterLine2 = 300*height/1000;
 var typeCenterLine3 = 425*height/1000;
@@ -101,72 +109,72 @@ var typeCenterColumn6 = width/1030*730;
 var typeCenterColumn7 = width/1030*900;
 
 var typeCenters = { // Center locations of the bubbles.
-    Anionen: { x: typeCenterColumn1, y: typeCenterLine1 },
-    Arzneimittel: { x: typeCenterColumn2, y: typeCenterLine1 },
-    BTEX: { x: typeCenterColumn3, y: typeCenterLine1 },
-    Einzelstoffe: { x: typeCenterColumn4, y: typeCenterLine1 },
-    Haerte: { x: typeCenterColumn5, y: typeCenterLine1 },
-    Kationen: { x: typeCenterColumn6, y: typeCenterLine1 },
-    Komplexbildner: { x: typeCenterColumn7, y: typeCenterLine1 },
-    LHKW: { x: typeCenterColumn1, y: typeCenterLine2 },
-    Metabolite: { x: typeCenterColumn2, y: typeCenterLine2 },
-    Metalle: { x: typeCenterColumn3, y: typeCenterLine2 },
-    Organochlorverbindungen: { x: typeCenterColumn4, y: typeCenterLine2 },
-    Organozinnverbindungen: { x: typeCenterColumn5, y: typeCenterLine2 },
-    PAK: { x: typeCenterColumn6, y: typeCenterLine2 },
-    PCB: { x: typeCenterColumn7, y: typeCenterLine2 },
-    Pestizide: { x: typeCenterColumn1, y: typeCenterLine3 },
-    Phthalate: { x: typeCenterColumn2, y: typeCenterLine3 },
-    Roentgenkontrastmittel: { x: typeCenterColumn3, y: typeCenterLine3 },
-    Suessstoffe: { x: typeCenterColumn4, y: typeCenterLine3 },
-    Summenparameter: { x: typeCenterColumn5, y: typeCenterLine3 }
+    Anionen: { x: parameterX[0], y: parameterY[0] },
+    Arzneimittel: { x: parameterX[1], y: parameterY[1] },
+    BTEX: { x: parameterX[2], y: parameterY[2] },
+    Einzelstoffe: { x: parameterX[3], y: parameterY[3] },
+    Haerte: { x: parameterX[4], y: parameterY[4] },
+    Kationen: { x: parameterX[5], y: parameterY[5] },
+    Komplexbildner: { x: parameterX[6], y: parameterY[6] },
+    LHKW: { x: parameterX[7], y: parameterY[7] },
+    Metabolite: { x: parameterX[8], y: parameterY[8] },
+    Metalle: { x: parameterX[9], y: parameterY[9] },
+    Organochlorverbindungen: { x: parameterX[10], y: parameterY[10] },
+    Organozinnverbindungen: { x: parameterX[11], y: parameterY[11] },
+    PAK: { x: parameterX[12], y: parameterY[12] },
+    PCB: { x: parameterX[13], y: parameterY[13] },
+    Pestizide: { x: parameterX[14], y: parameterY[14] },
+    Phthalate: { x: parameterX[15], y: parameterY[15] },
+    Roentgenkontrastmittel: { x: parameterX[16], y: parameterY[16] },
+    Suessstoffe: { x: parameterX[17], y: parameterY[17] },
+    Summenparameter: { x: parameterX[18], y: parameterY[18] }
 };
 
 var typeTitleX = {  // X locations of the year titles.
-    'Anionen': width/1030*75,
-    'Arzneimittel': width/1030*220,
-    'BTEX':  width/1030*340,
-    'Einzelstoffe': width/1030*470,
-    'Haerte': width/1030*600,
-    'Kationen': width/1030*750,
-    'Komplexbildner': width/1030*930,
-    'LHKW': width/1030*75,
-    'Metabolite': width/1030*220,
-    'Metalle': width/1030*340,
-    'Organochlorverbindungen': width/1030*470,
-    'Organozinnverbindungen': width/1030*600,
-    'PAK': width/1030*750,
-    'PCB': width/1030*930,
-    'Pestizide': width/1030*75,
-    'Phthalate': width/1030*220,
-    'Roentgenkontrastmittel': width/1030*340,
-    'Suessstoffe': width/1030*470,
-    'Summenparameter': width/1030*600
+    'Anionen': parameterX[0],
+    'Arzneimittel': parameterX[1],
+    'BTEX':  parameterX[2],
+    'Einzelstoffe': parameterX[3],
+    'Haerte': parameterX[4],
+    'Kationen': parameterX[5],
+    'Komplexbildner': parameterX[6],
+    'LHKW': parameterX[7],
+    'Metabolite': parameterX[8],
+    'Metalle': parameterX[9],
+    'Organochlorverbindungen': parameterX[10],
+    'Organozinnverbindungen': parameterX[11],
+    'PAK': parameterX[12],
+    'PCB': parameterX[13],
+    'Pestizide': parameterX[14],
+    'Phthalate': parameterX[15],
+    'Roentgenkontrastmittel': parameterX[16],
+    'Suessstoffe': parameterX[17],
+    'Summenparameter': parameterX[18]
 };
 
 var typeTitleYLine1 = 50*height/1000;
 var typeTitleYLine2 = 200*height/1000;
 var typeTitleYLine3 = 350*height/1000;
 var typeTitleY = {  // Y locations of the year titles.
-    'Anionen': typeTitleYLine1,
-    'Arzneimittel': typeTitleYLine1,
-    'BTEX':  typeTitleYLine1,
-    'Einzelstoffe': typeTitleYLine1,
-    'Haerte': typeTitleYLine1,
-    'Kationen': typeTitleYLine1,
-    'Komplexbildner': typeTitleYLine1,
-    'LHKW': typeTitleYLine2,
-    'Metabolite': typeTitleYLine2,
-    'Metalle': typeTitleYLine2,
-    'Organochlorverbindungen':  typeTitleYLine2 + 10,
-    'Organozinnverbindungen': typeTitleYLine2 - 10,
-    'PAK': typeTitleYLine2,
-    'PCB': typeTitleYLine2,
-    'Pestizide': typeTitleYLine3,
-    'Phthalate': typeTitleYLine3,
-    'Roentgenkontrastmittel': typeTitleYLine3,
-    'Suessstoffe': typeTitleYLine3,
-    'Summenparameter': typeTitleYLine3
+    'Anionen': parameterY[0],
+    'Arzneimittel': parameterY[1],
+    'BTEX':  parameterY[2],
+    'Einzelstoffe': parameterY[3],
+    'Haerte': parameterY[4],
+    'Kationen': parameterY[5],
+    'Komplexbildner': parameterY[6],
+    'LHKW': parameterY[7],
+    'Metabolite': parameterY[8],
+    'Metalle': parameterY[9],
+    'Organochlorverbindungen':  parameterY[10],
+    'Organozinnverbindungen': parameterY[11],
+    'PAK': parameterY[12],
+    'PCB': parameterY[13],
+    'Pestizide': parameterY[14],
+    'Phthalate': parameterY[15],
+    'Roentgenkontrastmittel': parameterY[16],
+    'Suessstoffe': parameterY[17],
+    'Summenparameter': parameterY[18]
 };
 
 // Messungen nach Wochentag
