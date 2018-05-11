@@ -166,13 +166,14 @@ function resize()
     var numberOfColums = Math.floor(windowWidth/typeGridWidth);
     if (numberOfColums < 1) {numberOfColums = 1;}
     var numberOfRows = Math.ceil(totalNumberOfParameters/numberOfColums);
+    var marginLeft = (windowWidth-(numberOfColums*typeGridWidth))/2;
     
     console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
     var parameterIndex = 0;
     for (var i = 0; i < numberOfRows; i++) {
         for(var j = 0; j < numberOfColums; j++) {
             if(parameterIndex < totalNumberOfParameters){
-                parameterX[parameterIndex] = j*typeGridWidth;
+                parameterX[parameterIndex] = marginLeft+j*typeGridWidth;
                 parameterY[parameterIndex] = i*typeGridHeight;
                 parameterIndex++;
             }
