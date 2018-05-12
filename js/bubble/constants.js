@@ -93,41 +93,34 @@ var totalNumberOfParameters = 19;
 var parameterX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var parameterY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-var typeGridWidth = 300;
-var typeGridHeight = 300;
+var parameterGridWidth = 300;
+var parameterGridHeight = 300;
 
-var typeCenterLine1 = 150*height/1000;
-var typeCenterLine2 = 300*height/1000;
-var typeCenterLine3 = 425*height/1000;
+var bubblesCenterMarginLeft = 0.5*parameterGridWidth;
+var bubblesCenterMarginTop = 0.5*parameterGridHeight;
 
-var typeCenterColumn1 = width/1030*110;
-var typeCenterColumn2 = width/1030*250;
-var typeCenterColumn3 = width/1030*360;
-var typeCenterColumn4 = width/1030*480;
-var typeCenterColumn5 = width/1030*590;
-var typeCenterColumn6 = width/1030*730;
-var typeCenterColumn7 = width/1030*900;
+
 
 var typeCenters = { // Center locations of the bubbles.
-    Anionen: { x: parameterX[0], y: parameterY[0] },
-    Arzneimittel: { x: parameterX[1], y: parameterY[1] },
-    BTEX: { x: parameterX[2], y: parameterY[2] },
-    Einzelstoffe: { x: parameterX[3], y: parameterY[3] },
-    Haerte: { x: parameterX[4], y: parameterY[4] },
-    Kationen: { x: parameterX[5], y: parameterY[5] },
-    Komplexbildner: { x: parameterX[6], y: parameterY[6] },
-    LHKW: { x: parameterX[7], y: parameterY[7] },
-    Metabolite: { x: parameterX[8], y: parameterY[8] },
-    Metalle: { x: parameterX[9], y: parameterY[9] },
-    Organochlorverbindungen: { x: parameterX[10], y: parameterY[10] },
-    Organozinnverbindungen: { x: parameterX[11], y: parameterY[11] },
-    PAK: { x: parameterX[12], y: parameterY[12] },
-    PCB: { x: parameterX[13], y: parameterY[13] },
-    Pestizide: { x: parameterX[14], y: parameterY[14] },
-    Phthalate: { x: parameterX[15], y: parameterY[15] },
-    Roentgenkontrastmittel: { x: parameterX[16], y: parameterY[16] },
-    Suessstoffe: { x: parameterX[17], y: parameterY[17] },
-    Summenparameter: { x: parameterX[18], y: parameterY[18] }
+    Anionen: { x: bubblesCenterMarginLeft + parameterX[0], y: parameterGridHeight + parameterY[0] },
+    Arzneimittel: { x: bubblesCenterMarginLeft + parameterX[1], y: parameterGridHeight + parameterY[1] },
+    BTEX: { x: bubblesCenterMarginLeft + parameterX[2], y: parameterGridHeight + parameterY[2] },
+    Einzelstoffe: { x: bubblesCenterMarginLeft + parameterX[3], y: parameterGridHeight + parameterY[3] },
+    Haerte: { x: bubblesCenterMarginLeft + parameterX[4], y: parameterGridHeight + parameterY[4] },
+    Kationen: { x: bubblesCenterMarginLeft + parameterX[5], y: parameterGridHeight + parameterY[5] },
+    Komplexbildner: { x: bubblesCenterMarginLeft + parameterX[6], y: parameterGridHeight + parameterY[6] },
+    LHKW: { x: bubblesCenterMarginLeft + parameterX[7], y: parameterGridHeight + parameterY[7] },
+    Metabolite: { x: bubblesCenterMarginLeft + parameterX[8], y: parameterGridHeight + parameterY[8] },
+    Metalle: { x: bubblesCenterMarginLeft + parameterX[9], y: parameterGridHeight + parameterY[9] },
+    Organochlorverbindungen: { x: bubblesCenterMarginLeft + parameterX[10], y: parameterGridHeight + parameterY[10] },
+    Organozinnverbindungen: { x: bubblesCenterMarginLeft + parameterX[11], y: parameterGridHeight + parameterY[11] },
+    PAK: { x: bubblesCenterMarginLeft + parameterX[12], y: parameterGridHeight + parameterY[12] },
+    PCB: { x: bubblesCenterMarginLeft + parameterX[13], y: parameterGridHeight + parameterY[13] },
+    Pestizide: { x: bubblesCenterMarginLeft + parameterX[14], y: parameterGridHeight + parameterY[14] },
+    Phthalate: { x: bubblesCenterMarginLeft + parameterX[15], y: parameterGridHeight + parameterY[15] },
+    Roentgenkontrastmittel: { x: bubblesCenterMarginLeft + parameterX[16], y: parameterGridHeight + parameterY[16] },
+    Suessstoffe: { x: bubblesCenterMarginLeft + parameterX[17], y: parameterGridHeight + parameterY[17] },
+    Summenparameter: { x: bubblesCenterMarginLeft + parameterX[18], y: parameterGridHeight + parameterY[18] }
 };
 
 var typeTitleX = {  // X locations of the year titles.

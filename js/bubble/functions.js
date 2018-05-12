@@ -163,18 +163,19 @@ function resize()
 {
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
-    var numberOfColums = Math.floor(windowWidth/typeGridWidth);
+    var numberOfColums = Math.floor(windowWidth/parameterGridWidth);
     if (numberOfColums < 1) {numberOfColums = 1;}
     var numberOfRows = Math.ceil(totalNumberOfParameters/numberOfColums);
-    var marginLeft = (windowWidth-(numberOfColums*typeGridWidth))/2;
+    var marginLeft = (windowWidth-(numberOfColums*parameterGridWidth))/2;
+    if (marginLeft < 0) {marginLeft = 0;}
     
     console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
     var parameterIndex = 0;
     for (var i = 0; i < numberOfRows; i++) {
         for(var j = 0; j < numberOfColums; j++) {
             if(parameterIndex < totalNumberOfParameters){
-                parameterX[parameterIndex] = marginLeft+j*typeGridWidth;
-                parameterY[parameterIndex] = i*typeGridHeight;
+                parameterX[parameterIndex] = marginLeft+j*parameterGridWidth;
+                parameterY[parameterIndex] = i*parameterGridHeight;
                 parameterIndex++;
             }
         }
