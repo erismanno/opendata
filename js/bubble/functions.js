@@ -143,10 +143,10 @@ function showType() {
 
     type.enter().append('text')
         .attr('class', 'type')
-        .attr('x', function (d) { return typeTitleX[d]; })
-        .attr('y', function (d) { return typeTitleY[d]; })
         .attr('text-anchor', 'middle')
         .text(function (d) { return d; });
+    type.attr('x', function (d) { return typeTitleX[d]; })
+        .attr('y', function (d) { return typeTitleY[d]; })
 }
 
 function compareNumbers(a, b)
@@ -156,6 +156,11 @@ function compareNumbers(a, b)
 
 window.onresize = function(event) {
     resize();
+    if($(".visualisierung__nachtypgruppieren").is(':checked')){
+        splitBubblesintoType();
+    }else{
+        groupBubbles();
+    }
 };
 
 function resize()
