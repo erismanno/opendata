@@ -71,7 +71,7 @@ function showDetail(d) {
 
 function hideDetail(d) { // tooltip verstecken
     d3.select(this)
-        .attr('stroke', d3.rgb(fillColor(d.type)).darker());
+        .attr('stroke', d3.rgb(fillColor(d.gruppe)).darker());
     tooltip2.hidetooltip2();
 }
 
@@ -125,9 +125,8 @@ function moveToType(alpha) {
     return function (d) {
         if(d.gruppe != "NULL"){
             var target = typeCenters[d.gruppe];
-            //console.log(d.gruppe);
-            d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
-            d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
+            d.x = d.x + (target.x - d.x) * damper * alpha;
+            d.y = d.y + (target.y - d.y) * damper * alpha;
         }
     };
 }
@@ -168,19 +167,20 @@ function resize()
     var numberOfRows = Math.ceil(totalNumberOfParameters/numberOfColums);
     var marginLeft = (windowWidth-(numberOfColums*parameterGridWidth))/2;
     if (marginLeft < 0) {marginLeft = 0;}
-    
-    console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
+    $('svg').height(numberOfRows*parameterGridHeight);
+    //console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
     var parameterIndex = 0;
     for (var i = 0; i < numberOfRows; i++) {
         for(var j = 0; j < numberOfColums; j++) {
             if(parameterIndex < totalNumberOfParameters){
                 parameterX[parameterIndex] = marginLeft+j*parameterGridWidth;
                 parameterY[parameterIndex] = i*parameterGridHeight;
+                typeCenters[parameterAssoc[parameterIndex]]['x'] = bubblesCenterMarginLeft + parameterX[parameterIndex];
+                typeCenters[parameterAssoc[parameterIndex]]['y'] = parameterY[parameterIndex] + bubblesCenterMarginTop;
+                typeTitleX[parameterAssoc[parameterIndex]] = bubblesCenterMarginLeft + parameterX[parameterIndex];
+                typeTitleY[parameterAssoc[parameterIndex]] = 20+parameterY[parameterIndex];
                 parameterIndex++;
             }
         }
     }
-    console.log(parameterX);
-    console.log(parameterY);
-    splitBubblesintoType();
 }

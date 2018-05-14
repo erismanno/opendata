@@ -5,7 +5,7 @@ This also sets some contants to specify how the force layout should behave. */
 var force = d3.layout.force()
     .size([width, height])
     .charge(charge)
-    .gravity(-0.01)
+    .gravity(-0.0001)
     .friction(0.9);
 var myBubbleChart = bubbleChart();
 
@@ -25,7 +25,9 @@ function bubbleChart() {
     var createNodes = function (rawData) {
 
     /* Use map() to convert raw data into node data. Checkout http://learnjsdata.com/ for more on working with data. */
-
+        rawData.sort(function(x, y){
+            return d3.ascending(x.id, y.id);
+        });
         var myNodes = rawData.map(function (d) {
             var rad;
             if(+d.konz>0){
@@ -37,13 +39,7 @@ function bubbleChart() {
             id: d.id,
             radius: rad, // Berechnung Radius für bubbles
             konzentration: d.konz, // Ansicht nach Konzentration
-            group: d.kategorie, // Darstellung
-            duration: d.kategorie, // Ansicht nach Störungsdauer
-            month: d.monat,
             year: d.jahr,
-            type: d.gruppe,  //vorfall
-            weekday: d.wochentag,
-            details: d.details,
             parameter: d.parameter,
             gruppe: d.gruppe,
             x: 250,//Math.random() * 900,
@@ -102,8 +98,8 @@ function bubbleChart() {
         bubbles.enter().append('circle')
           .classed('bubble', true)
           .attr('r', 0)
-          .attr('fill', function (d) { return fillColor(d.type); })
-          .attr('stroke', function (d) { return d3.rgb(fillColor(d.type)).darker(); })
+          .attr('fill', function (d) { return fillColor(d.gruppe); })
+          .attr('stroke', function (d) { return d3.rgb(fillColor(d.gruppe)).darker(); })
           .attr('stroke-width', 2)
           .on('mouseover', showDetail)
           .on('mouseout', hideDetail);
@@ -116,6 +112,7 @@ function bubbleChart() {
 
         // initiales layout = single group.
         groupBubbles();
+        resize();
       };
 
 
@@ -162,26 +159,35 @@ slider.oninput = function() {
 }
 
 function update(error, data) {
-    console.log(data.length);
+    console.log(data);
     var maxAmount = d3.max(data, function (d) { return +d.konz; });
     radiusScale.domain([0, maxAmount]);
-    console.log(maxAmount);
+    data.sort(function(x, y){
+        return d3.ascending(x.id, y.id);
+    });
     nodes.map(function(d,i){
+        if(d['id']!=data[i]['id']){
+            console.log(d['id']+":"+data[i]['id']);
+        }
+        d['id'] = data[i]['id'];
+        d['parameter'] = data[i]['parameter'];
+        d['jahr'] = data[i]['jahr'];
         d['konzentration'] = data[i]['konz'];
+        d['gruppe'] = data[i]['gruppe'];
         if(+data[i]['konz']>0){
             d['radius'] = radiusScale(+data[i]['konz']);
         }else{
             d['radius'] = 0;
         }
-        //d['type'] = data[i]['gruppe'];
+        return d;
     });
     force.start();
     svg.selectAll('.bubble').data(nodes, function (d) { return d.id; })
         .transition()
         .duration(2000)
         .attr('r', function (d) { return d.radius; })
-        .attr('fill', function (d) { return fillColor(d.type); })
-        .attr('stroke', function (d) { return d3.rgb(fillColor(d.type)).darker(); });
+        .attr('fill', function (d) { return fillColor(d.gruppe); })
+        .attr('stroke', function (d) { return d3.rgb(fillColor(d.gruppe)).darker(); });
     var alleFrachtWerte = data.map(function(d,i){
         return d.konz;
     }).filter(function(val){
@@ -211,7 +217,6 @@ function werteBereich(min, max){
             neu.radius = 0;
             return neu;
         }else{
-            console.log(radiusScale(max)+" "+radiusScale(+d.konzentration));
             d.radius = radiusScale(+d.konzentration);
             return d;
         }

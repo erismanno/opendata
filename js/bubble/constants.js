@@ -92,6 +92,27 @@ var totalNumberOfParameters = 19;
 
 var parameterX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var parameterY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var parameterAssoc = [
+    'Anionen',
+    'Arzneimittel',
+    'BTEX',
+    'Einzelstoffe',
+    'Haerte',
+    'Kationen',
+    'Komplexbildner',
+    'LHKW',
+    'Metabolite',
+    'Metalle',
+    'Organochlorverbindungen',
+    'Organozinnverbindungen',
+    'PAK',
+    'PCB',
+    'Pestizide',
+    'Phthalate',
+    'Roentgenkontrastmittel',
+    'Suessstoffe',
+    'Summenparameter'
+];
 
 var parameterGridWidth = 300;
 var parameterGridHeight = 300;
@@ -102,25 +123,25 @@ var bubblesCenterMarginTop = 0.5*parameterGridHeight;
 
 
 var typeCenters = { // Center locations of the bubbles.
-    Anionen: { x: bubblesCenterMarginLeft + parameterX[0], y: parameterGridHeight + parameterY[0] },
-    Arzneimittel: { x: bubblesCenterMarginLeft + parameterX[1], y: parameterGridHeight + parameterY[1] },
-    BTEX: { x: bubblesCenterMarginLeft + parameterX[2], y: parameterGridHeight + parameterY[2] },
-    Einzelstoffe: { x: bubblesCenterMarginLeft + parameterX[3], y: parameterGridHeight + parameterY[3] },
-    Haerte: { x: bubblesCenterMarginLeft + parameterX[4], y: parameterGridHeight + parameterY[4] },
-    Kationen: { x: bubblesCenterMarginLeft + parameterX[5], y: parameterGridHeight + parameterY[5] },
-    Komplexbildner: { x: bubblesCenterMarginLeft + parameterX[6], y: parameterGridHeight + parameterY[6] },
-    LHKW: { x: bubblesCenterMarginLeft + parameterX[7], y: parameterGridHeight + parameterY[7] },
-    Metabolite: { x: bubblesCenterMarginLeft + parameterX[8], y: parameterGridHeight + parameterY[8] },
-    Metalle: { x: bubblesCenterMarginLeft + parameterX[9], y: parameterGridHeight + parameterY[9] },
-    Organochlorverbindungen: { x: bubblesCenterMarginLeft + parameterX[10], y: parameterGridHeight + parameterY[10] },
-    Organozinnverbindungen: { x: bubblesCenterMarginLeft + parameterX[11], y: parameterGridHeight + parameterY[11] },
-    PAK: { x: bubblesCenterMarginLeft + parameterX[12], y: parameterGridHeight + parameterY[12] },
-    PCB: { x: bubblesCenterMarginLeft + parameterX[13], y: parameterGridHeight + parameterY[13] },
-    Pestizide: { x: bubblesCenterMarginLeft + parameterX[14], y: parameterGridHeight + parameterY[14] },
-    Phthalate: { x: bubblesCenterMarginLeft + parameterX[15], y: parameterGridHeight + parameterY[15] },
-    Roentgenkontrastmittel: { x: bubblesCenterMarginLeft + parameterX[16], y: parameterGridHeight + parameterY[16] },
-    Suessstoffe: { x: bubblesCenterMarginLeft + parameterX[17], y: parameterGridHeight + parameterY[17] },
-    Summenparameter: { x: bubblesCenterMarginLeft + parameterX[18], y: parameterGridHeight + parameterY[18] }
+    Anionen: { x: 0, y: 0 },
+    Arzneimittel: { x: 0, y: 0 },
+    BTEX: { x: 0, y: 0 },
+    Einzelstoffe: { x: 0, y: 0 },
+    Haerte: { x: 0, y: 0 },
+    Kationen: { x: 0, y: 0 },
+    Komplexbildner: { x: 0, y: 0 },
+    LHKW: { x: 0, y: 0 },
+    Metabolite: { x: 0, y: 0 },
+    Metalle: { x: 0, y: 0 },
+    Organochlorverbindungen: { x: 0, y: 0 },
+    Organozinnverbindungen: { x: 0, y: 0 },
+    PAK: { x: 0, y: 0 },
+    PCB: { x: 0, y: 0 },
+    Pestizide: { x: 0, y: 0 },
+    Phthalate: { x: 0, y: 0 },
+    Roentgenkontrastmittel: { x: 0, y: 0 },
+    Suessstoffe: { x: 0, y: 0 },
+    Summenparameter: { x: 0, y: 0 }
 };
 
 var typeTitleX = {  // X locations of the year titles.
@@ -145,9 +166,6 @@ var typeTitleX = {  // X locations of the year titles.
     'Summenparameter': parameterX[18]
 };
 
-var typeTitleYLine1 = 50*height/1000;
-var typeTitleYLine2 = 200*height/1000;
-var typeTitleYLine3 = 350*height/1000;
 var typeTitleY = {  // Y locations of the year titles.
     'Anionen': parameterY[0],
     'Arzneimittel': parameterY[1],
@@ -168,26 +186,4 @@ var typeTitleY = {  // Y locations of the year titles.
     'Roentgenkontrastmittel': parameterY[16],
     'Suessstoffe': parameterY[17],
     'Summenparameter': parameterY[18]
-};
-
-// Messungen nach Wochentag
-var weekdayCentersY = 200;
-var weekdayCenters = { // Center locations of the bubbles.
-    'Montag': { x: 110, y: weekdayCentersY },
-    'Dienstag': { x: 250, y: weekdayCentersY },
-    'Mittwoch': { x: 360, y: weekdayCentersY },
-    'Donnerstag': { x: 470, y: weekdayCentersY },
-    'Freitag': { x: 600, y: weekdayCentersY },
-    'Samstag': { x: 730, y: weekdayCentersY },
-    'Sonntag': { x: 900, y: weekdayCentersY },
-};
-
-var weekdayTitleX = {  // X locations of the year titles.
-    'Montag': 75,
-    'Dienstag': 220,
-    'Mittwoch': 340,
-    'Donnerstag': 470,
-    'Freitag': 600,
-    'Samstag': 750,
-    'Sonntag': 930,
 };
