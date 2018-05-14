@@ -167,6 +167,7 @@ function resize()
 {
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
+    center = { x: windowWidth / 2, y: windowHeight/2 };
     var numberOfColums = Math.floor(windowWidth/parameterGridWidth);
     if (numberOfColums < 1) {numberOfColums = 1;}
     var numberOfRows = Math.ceil(totalNumberOfParameters/numberOfColums);
