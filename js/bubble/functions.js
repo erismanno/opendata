@@ -32,8 +32,8 @@ function addCommas(nStr) {
 var tooltip2 = floatingtooltip2('gates_tooltip2', 240);
 
 var fillColor = d3.scale.ordinal()
-    .domain(['Anionen', 'Arzneimittel', 'BTEX', 'Einzelstoffe', 'Haerte', 'Kationen', 'Komplexbildner', 'LHKW', 'Metabolite','Metalle', 'Organochlorverbindungen', 'Organozinnverbindungen', 'PAK', 'PCB', 'Pestizide', 'Phthalate', 'Roentgenkontrastmittel', 'Suessstoffe', 'Summenparameter'])
-    .range(['#03A9F4', '#FF5722', '#727272', '#4CAF50', '#FFEB3B', '#303F9F', '#CD003C', '#8BC34A', '#795548', '#FFC107', '#87925d', '#42325d', '#CDDC39', '#9C27B0', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4']);
+    .domain(['Anionen', 'Arzneimittel', 'BTEX', 'Einzelstoffe', 'Kationen', 'Komplexbildner', 'LHKW', 'Metabolite','Metalle', 'Organochlorverbindungen', 'Organozinnverbindungen', 'PAK', 'PCB', 'Pestizide', 'Phthalate', 'Roentgenkontrastmittel', 'Suessstoffe', 'Summenparameter'])
+    .range(['#03A9F4', '#FF5722', '#727272', '#4CAF50', '#FFEB3B', '#303F9F', '#CD003C', '#8BC34A', '#795548', '#FFC107', '#87925d', '#42325d', '#CDDC39', '#9C27B0', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4']);
 
 /* Tooltip-Funktion*/
 function showDetail(d) {
