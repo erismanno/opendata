@@ -173,6 +173,7 @@ function resize()
     var marginLeft = (windowWidth-(numberOfColums*parameterGridWidth))/2;
     if (marginLeft < 0) {marginLeft = 0;}
     $('svg').height(numberOfRows*parameterGridHeight);
+    $('svg').width(windowWidth);
     //console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
     var parameterIndex = 0;
     for (var i = 0; i < numberOfRows; i++) {
