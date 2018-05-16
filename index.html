@@ -16,9 +16,27 @@
     </head>
 
   <body>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title modal__parameter" id="myModalLabel">Parameter</h4>
+              </div>
+              <div class="modal-body">
+                  Gruppe <span class="modal__gruppe"></span><br>
+                  Durchschnittliche Fracht <span class="modal__fracht"></span><br>
+                  <span class="modal__duckduckgo"></span>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+              </div>
+          </div>
+      </div>
+    </div>
     <div class="visualisierung">
-        <div class="visualisierung__navigation">
-            <div class="visualisierung__darstellungseinstellungen">
+        <div class="visualisierung__navigation container">
+            <div class="visualisierung__darstellungseinstellungen col-md-6 ">
                 <label for="visualisierung__jahr">Jahr</label>
                 <select class="visualisierung__jahr" id="visualisierung__jahr">
                     <option>2017</option>
@@ -28,14 +46,23 @@
                     <option>2013</option>
                 </select>
                 <br>
-                <label for="visualisierung__range">Wertebereich</label>
-                <div class="visualisierung__range" id="visualisierung__range"></div>
-                <br>
                 <input type="checkbox" class="visualisierung__nachtypgruppieren" id="visualisierung__nachtypgruppieren">
                 <label for="visualisierung__nachtypgruppieren">Nach Typ gruppieren</label><br>
             </div>
+            <div class="visualisierung__wertebereich col-md-6">
+                <label for="visualisierung__range">Wertebereich</label>
+                <div class="visualisierung__range" id="visualisierung__range"></div>
+            </div>
+            <div class="visualisierung__kugelgroessecontainer col-md-6">
+                <label for="visualisierung__kugelgroesse">Kugelgrösse</label>
+                <div class="visualisierung__kugelgroesse" id="visualisierung__kugelgroesse"></div>
+            </div>
         </div>
-        <div class="visualisierung__svgcontainer"></div>
+
+        <div class="visualisierung__svgcontainer">
+            <div class="visualisierung__tooltipcontainer">
+            </div>
+        </div>
    </div> 
 
     <script src="js/D3/d3.js"></script>

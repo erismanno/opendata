@@ -7,7 +7,7 @@
 function floatingtooltip2(tooltip2Id, width) {
   // Local variable to hold tooltip2 div for
   // manipulation in other functions.
-  var tt = d3.select('body')
+  var tt = d3.select('.visualisierung__tooltipcontainer')
     .append('div')
     .attr('class', 'tooltip2')
     .attr('id', tooltip2Id)
@@ -29,24 +29,24 @@ function floatingtooltip2(tooltip2Id, width) {
    * event is d3.event for positioning.
    */
   function showtooltip2(content, event) {
-    tt.style('opacity', 1.0)
+    tt.style('display', 'block')
       .html(content);
 
-    updatePosition(event);
+    //updatePosition(event);
   }
 
   /*
    * Hide the tooltip2 div.
    */
   function hidetooltip2() {
-    tt.style('opacity', 0.0);
+    tt.style('display', 'none');
   }
 
   /*
    * Figure out where to place the tooltip2
    * based on d3 mouse event.
    */
-  function updatePosition(event) {
+  /*function updatePosition(event) {
     var xOffset = 20;
     var yOffset = 10;
 
@@ -73,11 +73,10 @@ function floatingtooltip2(tooltip2Id, width) {
     }
 
     tt.style({ top: tttop + 'px', left: ttleft + 'px' });
-  }
+  }*/
 
   return {
     showtooltip2: showtooltip2,
-    hidetooltip2: hidetooltip2,
-    updatePosition: updatePosition
+    hidetooltip2: hidetooltip2
   };
 }

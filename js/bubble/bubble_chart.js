@@ -10,7 +10,6 @@ var force = d3.layout.force()
 var myBubbleChart = bubbleChart();
 
 
-
 /* Funktion für die Erstellung der Bubble Chart.
 Returned eine Funktion, welche eine neue Bubble Chart erstellt, gegeben ein DOM-Element
 zur Darstellung und gegeben ein Datenset zur Visualisierung. */
@@ -49,7 +48,6 @@ function bubbleChart() {
 
         // sort them to prevent occlusion of smaller nodes.
         myNodes.sort(function (a, b) { return b.konz - a.konz; });
-
         return myNodes;
       }
 
@@ -79,7 +77,17 @@ function bubbleChart() {
                   werteBereich(alleFrachtWerte[ui.values[0]],alleFrachtWerte[ui.values[1]]);
               }
         });
-
+          $(".visualisierung__kugelgroesse").slider({
+              range: true,
+              min: 5,
+              max: 70,
+              values: [5, 70],
+              slide: function( event, ui ) {
+                  console.log(ui.values[0]+","+ui.values[1]);
+                  radiusScale.range([ui.values[0], ui.values[1]]);
+                  redrawCurrentChart();
+              }
+          });
 
     /* Create a SVG element inside the provided selector with desired size. */
 
@@ -102,7 +110,8 @@ function bubbleChart() {
           .attr('stroke', function (d) { return d3.rgb(fillColor(d.gruppe)).darker(); })
           .attr('stroke-width', 2)
           .on('mouseover', showDetail)
-          .on('mouseout', hideDetail);
+          .on('mouseout', hideDetail)
+          .on('click', showModal);
 
         // Fancy transition to make bubbles appear, ending with the
         // correct radius
@@ -158,6 +167,22 @@ slider.oninput = function() {
     d3.csv(api+'get.php?year='+this.value, update); // Daten laden
 }
 
+function redrawCurrentChart(){
+    svg.selectAll('.bubble').data(nodes, function (d) { return d.id; })
+        .transition()
+        .duration(2000)
+        .attr('r', function (d) {
+            if(+d.konzentration>0&&+d.radius>0){
+                d.radius = radiusScale(+d.konzentration);
+            }
+            console.log(d.radius);
+            return d.radius;
+        })
+        .attr('fill', function (d) { return fillColor(d.gruppe); })
+        .attr('stroke', function (d) { return d3.rgb(fillColor(d.gruppe)).darker(); });
+    force.start();
+}
+
 function update(error, data) {
     console.log(data);
     var maxAmount = d3.max(data, function (d) { return +d.konz; });
@@ -210,8 +235,6 @@ function werteBereich(min, max){
     radiusScale.domain([min, max]);
     console.log("min"+min+"max"+max);
     nodes = nodes.map(function(d){
-        //console.log(d);
-        //debugger;
         if(+d.konzentration < min || +d.konzentration > max){
             var neu = d;
             neu.radius = 0;

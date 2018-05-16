@@ -10,6 +10,7 @@ var height = $(window).height()-$(".visualisierung__navigation").height(); // Ko
 var center = { x: width / 2, y: height/2 };  // Locations to move bubbles towards, depending on which view mode is selected.
 // Used when setting up force and moving around nodes
 var damper = 0.102;
+var typeHeight;
 // Beschriftungen
 // Messungen nach Monaten
 var monthCentersLine1 = 200;
@@ -88,7 +89,7 @@ var durationTitleX = { // X locations of the year titles.
 };
 
 // Messung nach Parameter
-var totalNumberOfParameters = 19;
+var totalNumberOfParameters = 18;
 
 var parameterX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var parameterY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

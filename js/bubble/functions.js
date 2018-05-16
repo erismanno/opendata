@@ -34,26 +34,28 @@ var tooltip2 = floatingtooltip2('gates_tooltip2', 240);
 var fillColor = d3.scale.ordinal()
     .domain(['Anionen', 'Arzneimittel', 'BTEX', 'Einzelstoffe', 'Kationen', 'Komplexbildner', 'LHKW', 'Metabolite','Metalle', 'Organochlorverbindungen', 'Organozinnverbindungen', 'PAK', 'PCB', 'Pestizide', 'Phthalate', 'Roentgenkontrastmittel', 'Suessstoffe', 'Summenparameter'])
     .range(['#03A9F4', '#FF5722', '#727272', '#4CAF50', '#FFEB3B', '#303F9F', '#CD003C', '#8BC34A', '#795548', '#FFC107', '#87925d', '#42325d', '#CDDC39', '#9C27B0', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4']);
-
+var currParameter;
 /* Tooltip-Funktion*/
 function showDetail(d) {
+    if(d.parameter !== currParameter) {
+        currParameter = d.parameter;
 
-    d3.select(this).attr('stroke', 'black');
+        d3.select(this).attr('stroke', 'black');
 
-    if(+d.konzentration>1000){
-        var wert = Math.round(+d.konzentration/1000) +" Tonnen pro Tag";
-    }else if(+d.konzentration<5){
-        var wert = Math.round(+d.konzentration*1000) +" Gramm pro Tag";
-    }else{
-        var wert = Math.round(+d.konzentration)+" KG pro Tag";
-    }
+        if (+d.konzentration > 1000) {
+            var wert = Math.round(+d.konzentration / 1000) + " Tonnen pro Tag";
+        } else if (+d.konzentration < 5) {
+            var wert = Math.round(+d.konzentration * 1000) + " Gramm pro Tag";
+        } else {
+            var wert = Math.round(+d.konzentration) + " KG pro Tag";
+        }
 
-    var content = '<span class="name">Parameter: </span><span class="value">' +
-        d.parameter +
-        '</span><br/>' +
-        '<span class="name">Gruppe: </span><span class="value">' +
-        d.gruppe +
-        '</span><br/>' /*+
+        var content = '<span class="name">Parameter: </span><span class="value">' +
+            d.parameter.replace(/ *\([^)]*\) */g, "") +
+            '</span><br/>' +
+            '<span class="name">Gruppe: </span><span class="value">' +
+            d.gruppe +
+            '</span><br/>' /*+
         '<span class="name">Monat: </span><span class="value">' +
         d.month +
         '</span><br/>' +
@@ -62,17 +64,41 @@ function showDetail(d) {
         '</span><br/>' +
         '<span class="name">Details: </span><span class="value">' +
         d.details +
-        '</span><br/>' */+
-        '<span class="name">Durchschnittliche Fracht: </span><span class="value">' +
-        wert +
-        '</span><br/>Für weitere Informationen auf Kreis klicken (todo).';
-    tooltip2.showtooltip2(content, d3.event);
+        '</span><br/>' */ +
+            '<span class="name">Durchschnittliche Fracht: </span><span class="value">' +
+            wert +
+            '</span><br><span class="tooltip__duckduckgo"></span>'
+            +'<br/>Auf Kreis klicken, um nach '+d.parameter.replace(/ *\([^)]*\) */g, "")+' zu googlen.';
+        tooltip2.showtooltip2(content, d3.event);
+
+        $(".modal__parameter").text(d.parameter.replace(/ *\([^)]*\) */g, ""));
+        $(".modal__gruppe").text(d.gruppe);
+        $(".modal__fracht").text(wert);
+
+        $.ajax({
+            dataType: "json",
+            url: "https://api.duckduckgo.com/?q=" + d.parameter.replace(/ *\([^)]*\) */g, "") + "&format=json&pretty=1&atb=v102-5&kl=ch-de"
+        }).done(function (data) {
+            if(data.AbstractText!==""){
+                console.log(data.AbstractText);
+                $(".modal__duckduckgo").text(data.AbstractText);
+                $(".tooltip__duckduckgo").text(data.AbstractText);
+                $(".tooltip__duckduckgo").html("<br>"+$(".tooltip__duckduckgo").html()+"<br>");
+            }
+        });
+    }
 }
 
 function hideDetail(d) { // tooltip verstecken
+    currParameter = "";
     d3.select(this)
         .attr('stroke', d3.rgb(fillColor(d.gruppe)).darker());
     tooltip2.hidetooltip2();
+}
+
+function showModal(d) {
+    //$('#myModal').modal('show');
+    window.open('https://www.google.com/search?q='+d.parameter.replace(/ *\([^)]*\) */g, ""), '_blank');
 }
 
 /* Initiale Ansicht: "Single group mode".
@@ -81,6 +107,7 @@ function hideDetail(d) { // tooltip verstecken
         function is set to move all nodes to the center of the visualization. */
 
 function groupBubbles() {
+    $('svg').height('auto');
     hideType();
 
     force.on('tick', function (e) {
@@ -110,6 +137,7 @@ function moveToCenter(alpha) {
 // Messung nach Typ
 
 function splitBubblesintoType() {
+    $('svg').height(typeHeight);
     showType();
 
     force.on('tick', function (e) {
@@ -136,7 +164,6 @@ function hideType() {
 }
 
 function showType() {
-
     var typeData = d3.keys(typeTitleX);
     var type = svg.selectAll('.type')
         .data(typeData);
@@ -167,14 +194,15 @@ function resize()
 {
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
+
     center = { x: windowWidth / 2, y: windowHeight/2 };
     var numberOfColums = Math.floor(windowWidth/parameterGridWidth);
     if (numberOfColums < 1) {numberOfColums = 1;}
     var numberOfRows = Math.ceil(totalNumberOfParameters/numberOfColums);
     var marginLeft = (windowWidth-(numberOfColums*parameterGridWidth))/2;
     if (marginLeft < 0) {marginLeft = 0;}
-    $('svg').height(numberOfRows*parameterGridHeight);
     $('svg').width(windowWidth);
+    typeHeight = numberOfRows * parameterGridHeight;
     //console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
     var parameterIndex = 0;
     for (var i = 0; i < numberOfRows; i++) {
@@ -182,6 +210,7 @@ function resize()
             if(parameterIndex < totalNumberOfParameters){
                 parameterX[parameterIndex] = marginLeft+j*parameterGridWidth;
                 parameterY[parameterIndex] = i*parameterGridHeight;
+                console.log(parameterAssoc[parameterIndex]);
                 typeCenters[parameterAssoc[parameterIndex]]['x'] = bubblesCenterMarginLeft + parameterX[parameterIndex];
                 typeCenters[parameterAssoc[parameterIndex]]['y'] = parameterY[parameterIndex] + bubblesCenterMarginTop;
                 typeTitleX[parameterAssoc[parameterIndex]] = bubblesCenterMarginLeft + parameterX[parameterIndex];

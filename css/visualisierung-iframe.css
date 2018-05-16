@@ -10,20 +10,25 @@ html, body, .visualisierung{
     height: 100%;
 }
 .tooltip2{
-    position: absolute;
-    top: 00px;
-    left: 00px;
-    -moz-border-radius:5px;
-    border-radius: 5px;
     border: 2px solid #000;
     background: #fff;
     opacity: .9;
     color: black;
     padding: 10px;
-    width: 400px;
     z-index: 10;
     font-size: 13px;
 }
 .visualisierung__navigation{
-    width:20%;
+    padding: 20px;
+    background: #eeeeee;
+}
+.visualisierung__svgcontainer{
+    position: relative;
+}
+.visualisierung__tooltipcontainer{
+    width: 300px;
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    transform: translate(-50%, 0);
 }
