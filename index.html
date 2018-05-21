@@ -1,21 +1,56 @@
 <!DOCTYPE html>
-<html lang="de">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Open Data App University of Bern">
-        <meta name="author" content="Oliver Erismann und Robert Schranz">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
+<html lang="en">
 
-        <title>iFrame Rhein Daten Visualisierung</title>
+  <head>
 
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/visualisierung-iframe.css">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    </head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Landing Page - Rheinüberwachungsdaten</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    
+    <!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/visualisierung-iframe.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/landing-page.min.css" rel="stylesheet">
+
+  </head>
 
   <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-light bg-light static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">OpenData</a>
+      </div>
+    </nav>
+
+    <!-- Masthead -->
+    <header class="masthead text-white text-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h1 class="mb-5">Rheinüberwachungsdaten<br />(Amt für Umwelt und Energie des Kantons Basel-Stadt)</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Visualisierung Start -->
+      <section>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -64,7 +99,45 @@
             </div>
         </div>
    </div> 
+          </section>
+    <!-- Visualisierung Ende -->
 
+    <!-- Testimonials -->
+    <section class="testimonials text-center bg-light">
+      <div class="container">
+        <h2 class="mb-5">Über uns</h2>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+              <img class="img-fluid rounded-circle mb-3" src="img/testimonials-1.jpg" alt="">
+              <h5>Oliver P. Erismann</h5>
+              <p class="font-weight-light mb-0">Student BSc Business Administration, Universität Bern</p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+              <img class="img-fluid rounded-circle mb-3" src="img/testimonials-2.jpg" alt="">
+              <h5>Robert Schranz</h5>
+              <p class="font-weight-light mb-0">Student BSc Business Administration, Universität Bern</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-light">
+      <div class="container">
+        <div class="row">
+          
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      
     <script src="js/D3/d3.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -74,5 +147,7 @@
     <script src="js/bubble/constants.js"></script>
     <script src="js/bubble/functions.js"></script>
     <script src="js/bubble/bubble_chart.js"></script>
-</body>
+
+  </body>
+
 </html>
