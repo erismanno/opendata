@@ -1,4 +1,6 @@
 var api = "http://opendata-visual.ch.tajo.host.ch/visual/api/";
+var ua = navigator.userAgent.toLowerCase();
+var isAndroid = ua.indexOf("android") > -1;
 var svg = null;
 var bubbles = null;
 var nodes = [];

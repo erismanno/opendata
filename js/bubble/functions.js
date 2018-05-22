@@ -52,7 +52,10 @@ function showDetail(d) {
         } else {
             var wert = Math.round(+d.konzentration) + " KG pro Tag";
         }
-
+	var google = '';
+	if(!isAndroid){
+		google = '<br/>Auf Kreis klicken, um nach '+d.parameter.replace(/ *\([^)]*\) */g, "")+' zu googlen.'
+	}
         var content = '<span class="name">Parameter: </span><span class="value">' +
             d.parameter.replace(/ *\([^)]*\) */g, "") +
             '</span><br/>' +
@@ -63,7 +66,7 @@ function showDetail(d) {
             wert +
 	    '<br/>Dieser Wert wurde in '+(+d.messungen_nichtnull)+' von '+((+d.messungen_nichtnull)+(+d.messungen_null))+' erfolgten Messungen im Wasser gefunden.'
             +'</span><br><span class="tooltip__duckduckgo"></span>'
-            +'<br/>Auf Kreis klicken, um nach '+d.parameter.replace(/ *\([^)]*\) */g, "")+' zu googlen.';
+            +google;
         tooltip2.showtooltip2(content, d3.event);
 
         $(".modal__parameter").text(d.parameter.replace(/ *\([^)]*\) */g, ""));
@@ -92,8 +95,9 @@ function hideDetail(d) { // tooltip verstecken
 }
 
 function showModal(d) {
-    //$('#myModal').modal('show');
-    window.open('https://www.google.com/search?q='+d.parameter.replace(/ *\([^)]*\) */g, ""), '_blank');
+    if(!isAndroid){
+	window.open('https://www.google.com/search?q='+d.parameter.replace(/ *\([^)]*\) */g, ""), '_blank');
+    }
 }
 
 /* Initiale Ansicht: "Single group mode".

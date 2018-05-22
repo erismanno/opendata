@@ -27,8 +27,9 @@ html, body, .visualisierung{
 }
 .visualisierung__tooltipcontainer{
     width: 300px;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 20px;
     transform: translate(-50%, 0);
+    z-index: 1000;
 }
