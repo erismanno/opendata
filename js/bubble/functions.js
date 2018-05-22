@@ -30,10 +30,13 @@ function addCommas(nStr) {
 
 // Tooltip für Mousover
 var tooltip2 = floatingtooltip2('gates_tooltip2', 240);
-
+var colors = palette(['tol-rainbow','cbf'], 18).map(function(d){
+	return "#"+d;
+});
 var fillColor = d3.scale.ordinal()
     .domain(['Anionen', 'Arzneimittel', 'BTEX', 'Einzelstoffe', 'Kationen', 'Komplexbildner', 'LHKW', 'Metabolite','Metalle', 'Organochlorverbindungen', 'Organozinnverbindungen', 'PAK', 'PCB', 'Pestizide', 'Phthalate', 'Roentgenkontrastmittel', 'Suessstoffe', 'Summenparameter'])
-    .range(['#03A9F4', '#FF5722', '#727272', '#4CAF50', '#FFEB3B', '#303F9F', '#CD003C', '#8BC34A', '#795548', '#FFC107', '#87925d', '#42325d', '#CDDC39', '#9C27B0', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4', '#03A9F4']);
+    .range(colors);
+
 var currParameter;
 /* Tooltip-Funktion*/
 function showDetail(d) {
@@ -55,19 +58,11 @@ function showDetail(d) {
             '</span><br/>' +
             '<span class="name">Gruppe: </span><span class="value">' +
             d.gruppe +
-            '</span><br/>' /*+
-        '<span class="name">Monat: </span><span class="value">' +
-        d.month +
-        '</span><br/>' +
-        '<span class="name">Jahr: </span><span class="value">' +
-        d.year +
-        '</span><br/>' +
-        '<span class="name">Details: </span><span class="value">' +
-        d.details +
-        '</span><br/>' */ +
+            '</span><br/>' +
             '<span class="name">Durchschnittliche Fracht: </span><span class="value">' +
             wert +
-            '</span><br><span class="tooltip__duckduckgo"></span>'
+	    '<br/>Dieser Wert wurde in '+(+d.messungen_nichtnull)+' von '+((+d.messungen_nichtnull)+(+d.messungen_null))+' erfolgten Messungen im Wasser gefunden.'
+            +'</span><br><span class="tooltip__duckduckgo"></span>'
             +'<br/>Auf Kreis klicken, um nach '+d.parameter.replace(/ *\([^)]*\) */g, "")+' zu googlen.';
         tooltip2.showtooltip2(content, d3.event);
 

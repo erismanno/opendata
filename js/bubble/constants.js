@@ -1,4 +1,4 @@
-var api = "http://opendata-visual.ch.tajo.host.ch/api/";
+var api = "http://opendata-visual.ch.tajo.host.ch/visual/api/";
 var svg = null;
 var bubbles = null;
 var nodes = [];
