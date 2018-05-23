@@ -1,6 +1,12 @@
 var api = "http://opendata-visual.ch.tajo.host.ch/visual/api/";
+// Browser checks
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
+// detect IE8 and above, and edge
+if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+    alert('Dieses Projekt wurde aus Zeitgründen nicht für Internet Explorer und Edge optimiert. Bitte besuchen Sie die Seite mit dem Google Chrome, Firefox oder Safari.');
+}
+
 var svg = null;
 var bubbles = null;
 var nodes = [];

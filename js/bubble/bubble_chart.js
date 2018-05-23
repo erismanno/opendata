@@ -199,8 +199,8 @@ function update(error, data) {
         d['jahr'] = data[i]['jahr'];
         d['konzentration'] = data[i]['konz'];
         d['gruppe'] = data[i]['gruppe'];
-	d['d.messungen_nichtnull'] = data[i]['messungen_nichtnull'];
-	d['d.messungen_null'] = data[i]['messungen_null'];
+        d['messungen_nichtnull'] = data[i]['messungen_nichtnull'];
+        d['messungen_null'] = data[i]['messungen_null'];
         if(+data[i]['konz']>0){
             d['radius'] = radiusScale(+data[i]['konz']);
         }else{
