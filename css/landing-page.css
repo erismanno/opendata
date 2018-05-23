@@ -35,16 +35,17 @@ header.masthead .overlay {
 }
 
 header.masthead h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 0 !important;
 }
 
 @media (min-width: 768px) {
   header.masthead {
-    padding-top: 12rem;
-    padding-bottom: 12rem;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
   header.masthead h1 {
-    font-size: 3rem;
+    font-size: 1.5rem;
   }
 }
 

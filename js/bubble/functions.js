@@ -64,7 +64,7 @@ function showDetail(d) {
             '</span><br/>' +
             '<span class="name">Durchschnittliche Fracht: </span><span class="value">' +
             wert +
-	    '<br/>Dieser Wert wurde in '+(+d.messungen_nichtnull)+' von '+((+d.messungen_nichtnull)+(+d.messungen_null))+' erfolgten Messungen im Wasser gefunden.'
+	    '<br/>Dieser Stoff wurde in '+(+d.messungen_nichtnull)+' von '+((+d.messungen_nichtnull)+(+d.messungen_null))+' erfolgten Messungen im Wasser gefunden.'
             +'</span><br><span class="tooltip__duckduckgo"></span>'
             +google;
         tooltip2.showtooltip2(content, d3.event);
@@ -78,7 +78,6 @@ function showDetail(d) {
             url: "https://api.duckduckgo.com/?q=" + d.parameter.replace(/ *\([^)]*\) */g, "") + "&format=json&pretty=1&atb=v102-5&kl=ch-de"
         }).done(function (data) {
             if(data.AbstractText!==""){
-                console.log(data.AbstractText);
                 $(".modal__duckduckgo").text(data.AbstractText);
                 $(".tooltip__duckduckgo").text(data.AbstractText);
                 $(".tooltip__duckduckgo").html("<br>"+$(".tooltip__duckduckgo").html()+"<br>");
@@ -202,14 +201,12 @@ function resize()
     if (marginLeft < 0) {marginLeft = 0;}
     $('svg').width(windowWidth);
     typeHeight = numberOfRows * parameterGridHeight;
-    //console.log("Height: " + windowHeight + " Width: " +  windowWidth + " NumberOfColums: " + numberOfColums + " NumberOfRows: " + numberOfRows);
     var parameterIndex = 0;
     for (var i = 0; i < numberOfRows; i++) {
         for(var j = 0; j < numberOfColums; j++) {
             if(parameterIndex < totalNumberOfParameters){
                 parameterX[parameterIndex] = marginLeft+j*parameterGridWidth;
                 parameterY[parameterIndex] = i*parameterGridHeight;
-                console.log(parameterAssoc[parameterIndex]);
                 typeCenters[parameterAssoc[parameterIndex]]['x'] = bubblesCenterMarginLeft + parameterX[parameterIndex];
                 typeCenters[parameterAssoc[parameterIndex]]['y'] = parameterY[parameterIndex] + bubblesCenterMarginTop;
                 typeTitleX[parameterAssoc[parameterIndex]] = bubblesCenterMarginLeft + parameterX[parameterIndex];

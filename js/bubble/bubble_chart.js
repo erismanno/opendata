@@ -177,7 +177,6 @@ function redrawCurrentChart(){
             if(+d.konzentration>0&&+d.radius>0){
                 d.radius = radiusScale(+d.konzentration);
             }
-            console.log(d.radius);
             return d.radius;
         })
         .attr('fill', function (d) { return fillColor(d.gruppe); })
@@ -186,7 +185,6 @@ function redrawCurrentChart(){
 }
 
 function update(error, data) {
-    console.log(data);
     var maxAmount = d3.max(data, function (d) { return +d.konz; });
     radiusScale.domain([0, maxAmount]);
     data.sort(function(x, y){
