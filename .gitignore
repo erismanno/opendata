@@ -1,2 +1,5 @@
 *.DS_Store
 secretCredentials.php
+node_modules/
+package-lock.json
+
