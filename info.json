@@ -1,0 +1,11 @@
+{
+"title": "Rheinüberwachungsdaten",
+"description": "Die App visualisiert Rheinüberwachungsdaten über den Zeitraum von 2013 bis 2017. Der Datensatz umfasst 670 Schadstoffe (Parameter) von welchen 420 täglich gemessen werden. Zur Visualisierung wurden die durchschnittlichen Frachten der Schadstoffe pro Tag berechnet. Die Visualisierung zeigt relativ wie gross die Fracht der einzelnen Stoffe über eine gewisse Periode ist. Zudem lassen sich die Veränderungen der Frachten über die Jahre zeigen. Mit weiteren Informationen wie Beschreibung der Schadstoffe oder Anzeigen der Anzahl Messungen wir die Funktionalitäten der App noch erweitert.",
+"authors": [
+    {"name": "Oliver P. Erismann", "email": "oliver.erismann@students.unibe.ch"},
+    {"name": "Robert Schranz", "email": "robert.schranz@students.unibe.ch"}
+],
+"date": "2018-05-31",
+"category": "environment",
+"software_license": "GNU General Public License v3"
+}
