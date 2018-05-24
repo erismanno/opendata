@@ -46,7 +46,7 @@ function showDetail(d) {
         d3.select(this).attr('stroke', 'black');
 
         if (+d.konzentration > 1000) {
-            var wert = (Math.round(+d.konzentration / 1000 *1000) /1000) + " Tonnen pro Tag";
+            var wert = (Math.round(+d.konzentration / 1000)) + " Tonnen pro Tag";
         } else if(+d.konzentration < 0.000001){
             var wert = "<0.001 Gramm pro Tag";
         } else if (+d.konzentration < 5) {

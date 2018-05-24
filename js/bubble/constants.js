@@ -1,4 +1,4 @@
-var api = "http://opendata-visual.ch.tajo.host.ch/visual/api/";
+var api = "http://oe15l054.opendata.iwi.unibe.ch/api/";
 // Browser checks
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
