@@ -21,6 +21,7 @@
     <!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/visualisierung.css">
+    <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Custom styles for this template -->
@@ -99,14 +100,14 @@
                 </select>
                 <br>
                 <input type="checkbox" class="visualisierung__nachtypgruppieren" id="visualisierung__nachtypgruppieren">
-                <label for="visualisierung__nachtypgruppieren">Nach Typ gruppieren</label><br>
+                <label for="visualisierung__nachtypgruppieren">Nach Gruppe gruppieren</label><br>
             </div>
             <div class="visualisierung__wertebereich col-md-6">
-                <label for="visualisierung__range">Wertebereich</label>
+                <label for="visualisierung__range">Wertebereich der Frachten</label>
                 <div class="visualisierung__range" id="visualisierung__range"></div>
             </div>
             <div class="visualisierung__kugelgroessecontainer col-md-6">
-                <label for="visualisierung__kugelgroesse">Kugelgrösse</label>
+                <label for="visualisierung__kugelgroesse">Kugelgrösse (5 - 70 Pixel Radius)</label>
                 <div class="visualisierung__kugelgroesse" id="visualisierung__kugelgroesse"></div>
             </div>
         </div>
@@ -118,6 +119,47 @@
    </div> 
           </section>
     <!-- Visualisierung Ende -->
+      
+      <!-- Image Showcases -->
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters" style="padding: 20px;">
+                <h2>Die Daten</h2>
+                <p class="lead mb-0">Die Daten wurden vom Amt für Umwelt und Energie des Kantons Basel-Stadt bezogen. Der Datensatz umfasst Rheinüberwachungsdaten bzw. Messungen von Schadstoffen im Rhein über den Zeitraum von 2013 bis 2017. Der Datensatz enthielt Messungen von 670 Schadstoffen, sogenannte Parameter, von welchen 420 täglich gemessen wurden. Insgesamt umfasst der Datensatz über 600'000 Messergebnisse. Zu jedem dieser Messergebnisse lagen unter anderem folgende Werte vor: Datum, Name der Verbindung, Gruppe, Prüfmethode, Einheit des Ergebnisses, Bestimmungsgrenze, Analysen-Ergebnis, Schwebstoff-Gehalt [mg/l], Durchfluss Q [m3/s]. Die Daten lagen im CSV Format vor.</p>
+            </div>
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row no-gutters" style="padding: 20px;">
+                <h2>Die Bereinigung der Daten</h2>
+                <p class="lead mb-0">In einem ersten Schritt wurden die Daten aus der CSV Datei in eine MySQL Datenbank importiert. Weiter mussten die Daten noch bereinigt werden. Wenn die gemessene Konzentration eines Stoffes unter der Bestimmungsgrenze lag wurde dies mit &lt;Messgrenze festgehalten. Nach Absprache mit den Data Coaches vom Amt für Umwelt und Energie des Kantons Basel-Stadt mussten diese Werte auf 0 gesetzt werden. Da nur Daten zur Konzentration in mg/l vorlagen, musste anhand der Konzentration und der Durchflussmenge die sogenannte Fracht, also die effektive Menge des Stoffes berechnet werden, die an diesem Tag den Rhein runter geflossen ist.</p>
+            </div>
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row no-gutters" style="padding: 20px;">
+                <h2>Funktionalitäten der App</h2>
+                <p class="lead mb-0">Ziel der Visualisierung war es zeigen zu können, wie gross die Stoffmengen bzw. die Frachten sind die im Rhein gemessen werden bzw. der Rhein mit sich transportiert. Die Daten wurden mittels einem Bubble Chart visualisiert, da dies es erlaubt verschiedene Grössen anschaulich zu vergleichen. Die Visualisierung verfügt über zwei Ansichten. Die Hauptansicht, in der sämtliche Stoffe unsortiert angezeigt werden und die Ansicht in welcher die Stoffe nach ihrer Gruppe sortiert dargestellt werden.</p>
+                <p class="lead mb-0">Die Hauptansicht soll dem Benutzer einerseits einen Eindruck davon geben wie gross die transportierten Frachten (durchschnittlich >4'000 Tonnen pro Tag) gewisser Stoffe sind. Andererseits soll sie jedoch auch aufzeigen, wie gering (durchschnittlich &lt;1 Gramm pro Tag) gewisse im Gegensatz dazu sind. Die Grösse der Kugel wiederspiegelt die relative Menge der Fracht des Stoffes. Je grösser die Kugel, desto grösser die Fracht des Stoffes. </p>
+                <p class="lead mb-0">In der gruppierten Ansicht werden die Kugeln (Stoffe) ihren Gruppen zugehörend angezeigt. Jede Gruppe wird von einer bestimmten Farbe repräsentiert, in welcher die Kugeln eingefärbt sind.</p>
+                <p class="lead mb-0">Mittels Dropdown können die Daten für die Jahre von 2013 bis 2017 selektiert werden. Mittels Animation verändern die Kugeln ihre Grösse entsprechend dem selektierten Jahr. Weiter bietet die App die Funktionalität den Wertebereich einzuschränken. Dies ermöglicht es beispielsweise nur Stoffe mit einer sehr kleinen oder sehr grossen Fracht anzuzeigen. Um die Aussagekraft der App je nach Selektion des Wertebereiches zu erhalten, können die maximalen bzw. minimalen Grössen der Kugeln mittels eines Reglers eingestellt werden.</p>
+                <p class="lead mb-0">Wenn mit der Maus über eine Kugel gefahren wird, werden in einem Popup Fenster Informationen zu diesem Stoff angezeigt. Dies sind unter anderem die durchschnittliche Fracht des Stoffes pro Tag, die Gruppe des Stoffes, Angaben dazu wie oft der Stoff gemessen wurde und wie oft er über der Bestimmungsgrenze gemessen werden konnte. Zusätzlich werden weitere Informationen zu diesem Stoff angezeigt. Diese Informationen werden von der Suchmaschine DuckDuckGo über ein API bei jedem Aufruf der Seite neu abgefragt. Wird auf die Kugel geklickt wird der Stoff in einem neuen Browser Tab gegooglet.</p>
+            </div>
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row no-gutters" style="padding: 20px;">
+                <h2>Technische Informationen</h2>
+                <p class="lead mb-0">Das Frontend der App wurde mit diversen Webtechnologien entwickelt. Unter anderem wurde HTML, CSS, Bootstrap, JavaScript und D3.js verwendet. Das Backend bzw. die Verbindung zur Datenbank wurde in PHP entwickelt. Als Datenbank wurde eine MySQL Datenbank verwendet.</p>
+                <p class="lead mb-0">Der gesamte Source Code inklusive Daten und SQL Dump sind unter folgenden GitHub Repo abrufbar: <a href="https://github.com/erismanno/opendata">https://github.com/erismanno/opendata</a></p>
+                <p class="lead mb-0">Die D3.js Visualisierung basiert auf folgendem Code Snippet: <a href="http://vallandingham.me/bubble_charts_in_js.html">
+Creating Bubble Charts in JavaScript</a></p>
+            </div>
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row no-gutters" style="padding: 20px;">
+                <h2>Fazit</h2>
+                <p class="lead mb-0">In vorliegender Visualisierung der Rheinüberwachungsdaten des Amts für Umwelt und Energie des Kantons Basel-Stadt sehen wir den Mehrwert in der Visualisierung an sich. Durch die Visualisierung ist es Benutzern auf einfache Art und Weise möglich, sich über Schadstoffe im Rhein zu informieren. Es ist uns gelungen, sowohl die absolut grossen als auch die kleinen Mengen an Schadstoffen im Rhein aufzuzeigen. Trotzdem lässt sich im Verhältnis zur gesamten Wassermenge sagen, dass der Rhein glücklicherweise sehr sauber ist und die Schadstoffe nur einen sehr kleinen Teil ausmachen. Dass die Data Coaches vom Amts für Umwelt und Energie des Kantons Basel-Stadt bereits angekündet haben, die Visulisierung in ihre Website einzubauen, freut und bestärkt uns in unserer Überzeugung eine Mehrwert bringende Arbeit geleistet zu haben.</p>
+            </div>
+        </div>
+    </section>
 
     <!-- Testimonials -->
     <section class="testimonials text-center bg-light">
@@ -129,6 +171,7 @@
               <img class="img-fluid rounded-circle mb-3" src="img/testimonials-1.jpg" alt="">
               <h5>Oliver P. Erismann <a href="mailto:oliver.erismann@students.unibe.ch"><i class="fa fa-envelope"></i></a> </h5>
               <p class="font-weight-light mb-0">Student BSc Business Administration, Universität Bern</p>
+              <p class="font-weight-light mb-0"><a href="https://www.linkedin.com/in/erismanno">LinkedIn</a></p>
             </div>
           </div>
           <div class="col-lg-6">
@@ -143,7 +186,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer bg-light">
+    <footer class="footer bg-light" style="padding: 20px;">
       <div class="container">
         <div class="row">
           <p>Datenquelle: Amt für Umwelt und Energie des Kantons Basel-Stadt<br>
